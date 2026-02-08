@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Will You Marry Me 💓</title>
+<title>Will You Marry Me 💍</title>
 
 <style>
   body {
@@ -21,8 +21,9 @@
     padding: 40px;
     border-radius: 20px;
     text-align: center;
-    width: 350px;
+    width: 360px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    z-index: 2;
   }
 
   h2 {
@@ -40,12 +41,13 @@
     color: #555;
     margin: 20px 0;
     line-height: 1.5;
+    min-height: 48px;
   }
 
   .buttons {
     margin-top: 25px;
     position: relative;
-    height: 80px;
+    height: 90px;
   }
 
   button {
@@ -65,19 +67,28 @@
     position: absolute;
     background: #ddd;
   }
+
+  .heart {
+    position: absolute;
+    font-size: 20px;
+    animation: float 6s linear infinite;
+    opacity: 0.8;
+  }
+
+  @keyframes float {
+    from { transform: translateY(100vh); }
+    to { transform: translateY(-10vh); }
+  }
 </style>
 </head>
 
 <body>
 
 <div class="card">
-  <h2 id="name">narresh,</h2>
+  <h2 id="partnerName"></h2>
   <h1>Will you marry me? 💓</h1>
 
-  <p class="quote">
-    “I choose you.  
-    And I’ll keep choosing you — forever.”
-  </p>
+  <p class="quote" id="quote"></p>
 
   <div class="buttons">
     <button id="yes" onclick="yesClicked()">Yes 💍</button>
@@ -86,14 +97,40 @@
 </div>
 
 <script>
+  // Get names from URL
+  const params = new URLSearchParams(window.location.search);
+  const partner = params.get("partner") || "My Love";
+
+  document.getElementById("partnerName").innerText = partner + ",";
+
+  // Typewriter effect
+  const text = "“I choose you. And I’ll keep choosing you — forever.”";
+  let i = 0;
+  function type() {
+    if (i < text.length) {
+      document.getElementById("quote").innerHTML += text.charAt(i);
+      i++;
+      setTimeout(type, 50);
+    }
+  }
+  type();
+
   // Move NO button
   function moveNo() {
     const no = document.getElementById("no");
-    const x = Math.random() * 250;
-    const y = Math.random() * 50;
-    no.style.left = x + "px";
-    no.style.top = y + "px";
+    no.style.left = Math.random() * 260 + "px";
+    no.style.top = Math.random() * 60 + "px";
   }
+
+  // Floating hearts
+  setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 6000);
+  }, 400);
 
   // YES clicked
   function yesClicked() {

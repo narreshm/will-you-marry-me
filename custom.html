@@ -29,6 +29,12 @@
     margin-bottom: 18px;
   }
 
+  h3 {
+    font-size: 14px;
+    margin-top: 22px;
+    color: #a24b63;
+  }
+
   label {
     font-weight: 600;
     color: #a24b63;
@@ -52,7 +58,7 @@
 
   button {
     width: 100%;
-    margin-top: 22px;
+    margin-top: 18px;
     padding: 14px;
     border-radius: 30px;
     border: none;
@@ -67,13 +73,6 @@
     background: white;
     color: #ff5b8a;
     border: 1px solid #ffd1dc;
-    margin-top: 10px;
-  }
-
-  h3 {
-    font-size: 14px;
-    margin-top: 20px;
-    color: #a24b63;
   }
 
   .box {
@@ -115,13 +114,14 @@
   </select>
 
   <label>Your message 💬</label>
-  <textarea id="customText"
-    placeholder="Write what you really feel…"></textarea>
+  <textarea id="customText" placeholder="Write what you really feel…"></textarea>
 
   <button onclick="generate()">Generate 💖</button>
 
-  <!-- After generate -->
+  <!-- CLEARLY VISIBLE AFTER GENERATE -->
   <div id="after" class="hidden">
+
+    <h3>Customized proposal link</h3>
 
     <button class="light" onclick="copyLink()">Copy link 🔗</button>
     <button class="light" onclick="openLink()">Open link 💞</button>
@@ -168,6 +168,8 @@ ${finalURL}
 
   document.getElementById("urlBox").innerText = finalURL;
   document.getElementById("msgBox").innerText = finalMessage;
+
+  // ✅ SHOW THE SECTION
   document.getElementById("after").classList.remove("hidden");
 }
 

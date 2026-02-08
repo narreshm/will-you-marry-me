@@ -9,16 +9,16 @@
     margin: 0;
     min-height: 100vh;
     font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#ffe6ef,#f7c6d0);
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(135deg, #ffe6ef, #f7c6d0);
   }
 
   .card {
-    background: rgba(255,255,255,0.95);
-    padding: 32px;
-    border-radius: 26px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 22px;
     width: 360px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   }
@@ -27,8 +27,7 @@
     font-weight: 600;
     color: #a24b63;
     display: block;
-    margin-bottom: 6px;
-    margin-top: 16px;
+    margin-top: 15px;
   }
 
   input {
@@ -36,13 +35,13 @@
     padding: 14px;
     border-radius: 14px;
     border: none;
-    font-size: 15px;
+    margin-top: 6px;
     background: #fff0f5;
   }
 
   button {
     width: 100%;
-    margin-top: 22px;
+    margin-top: 18px;
     padding: 14px;
     border-radius: 30px;
     border: none;
@@ -60,24 +59,16 @@
     background: white;
     color: #ff5b8a;
     border: 1px solid #ffd1dc;
-    margin-top: 12px;
-  }
-
-  h3 {
-    font-size: 14px;
-    margin-top: 18px;
-    color: #a24b63;
   }
 
   .box {
+    margin-top: 10px;
     background: #fff4f8;
     border: 2px dashed #f3a7bd;
     padding: 12px;
     border-radius: 14px;
     font-size: 13px;
     word-break: break-all;
-    min-height: 40px;
-    color: #555;
   }
 
   .hidden {
@@ -91,24 +82,26 @@
 <div class="card">
 
   <label>The one asking 💫</label>
-  <input id="you">
+  <input id="from">
 
   <label>The one I choose 💍</label>
-  <input id="partner">
+  <input id="to">
 
   <button class="generate" onclick="generate()">Generate 💖</button>
 
-  <!-- Appears AFTER generate -->
-  <div id="after" class="hidden">
+  <!-- THIS SECTION WILL APPEAR -->
+  <div id="result" class="hidden">
 
     <button class="light" onclick="copyLink()">Copy link 🔗</button>
     <button class="light" onclick="openLink()">Open link 💞</button>
 
-    <h3>Your personalized URL</h3>
+    <h4>Your personalized URL</h4>
     <div class="box" id="urlBox"></div>
 
-    <h3>Ready-to-send message</h3>
+    <h4>Ready-to-send message</h4>
     <div class="box" id="msgBox"></div>
+
+    <button class="light" onclick="openCustom()">Customize message ✨</button>
 
   </div>
 
@@ -116,44 +109,48 @@
 
 <script>
 let finalURL = "";
-let finalMessage = "";
+let finalMsg = "";
 
 function generate() {
-  const you = document.getElementById("you").value.trim();
-  const partner = document.getElementById("partner").value.trim();
+  const from = document.getElementById("from").value.trim();
+  const to = document.getElementById("to").value.trim();
 
-  if (!you || !partner) {
+  if (!from || !to) {
     alert("Please enter both names 💕");
     return;
   }
 
   finalURL =
-    `https://narreshm.github.io/will-you-marry-me/valentine.html?you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}`;
+    `valentine.html?partner=${encodeURIComponent(to)}`;
 
-  finalMessage =
-`Hey ${partner} 💖
+  finalMsg =
+`Hey ${to} 💖
 
 I made something special just for you…
 Open this when you're free 💍✨
 
-${finalURL}
+${location.origin + location.pathname.replace("index.html","") + finalURL}
 
-With lots of love,
-${you} 💕`;
+— ${from} 💕`;
 
-  document.getElementById("urlBox").innerText = finalURL;
-  document.getElementById("msgBox").innerText = finalMessage;
+  document.getElementById("urlBox").innerText =
+    location.origin + location.pathname.replace("index.html","") + finalURL;
 
-  document.getElementById("after").classList.remove("hidden");
+  document.getElementById("msgBox").innerText = finalMsg;
+  document.getElementById("result").classList.remove("hidden");
 }
 
 function copyLink() {
-  navigator.clipboard.writeText(finalURL);
+  navigator.clipboard.writeText(document.getElementById("urlBox").innerText);
   alert("Link copied 💖");
 }
 
 function openLink() {
   window.open(finalURL, "_blank");
+}
+
+function openCustom() {
+  window.open("custom.html", "_blank");
 }
 </script>
 

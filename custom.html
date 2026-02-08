@@ -2,87 +2,67 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Create Your Special Message 💖</title>
+<title>Customize your message ✨</title>
 
 <style>
   body {
     margin: 0;
     min-height: 100vh;
     font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #ffe6ef, #f7c6d0);
+    background: linear-gradient(135deg,#ffe6ef,#f7c6d0);
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
   .card {
-    background: rgba(255,255,255,0.95);
+    background: #fff;
     padding: 32px;
-    border-radius: 28px;
+    border-radius: 26px;
     width: 380px;
     box-shadow: 0 20px 45px rgba(0,0,0,0.15);
-  }
-
-  h2 {
-    text-align: center;
-    color: #ff5b8a;
-    margin-bottom: 18px;
-  }
-
-  h3 {
-    font-size: 14px;
-    margin-top: 22px;
-    color: #a24b63;
   }
 
   label {
     font-weight: 600;
     color: #a24b63;
+    margin-top: 14px;
     display: block;
-    margin: 14px 0 6px;
   }
 
-  input {
+  input, textarea {
     width: 100%;
     padding: 14px;
     border-radius: 14px;
     border: none;
-    font-size: 14px;
+    margin-top: 6px;
     background: #fff0f5;
+  }
+
+  textarea {
+    height: 90px;
   }
 
   button {
     width: 100%;
-    margin-top: 18px;
+    margin-top: 20px;
     padding: 14px;
     border-radius: 30px;
     border: none;
     background: #ff5b8a;
     color: white;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
   }
 
-  .light {
-    background: white;
-    color: #ff5b8a;
-    border: 1px solid #ffd1dc;
-  }
-
   .box {
+    margin-top: 14px;
     background: #fff4f8;
     border: 2px dashed #f3a7bd;
     padding: 12px;
     border-radius: 14px;
     font-size: 13px;
-    min-height: 40px;
-    word-break: break-all;
-    color: #555;
-  }
-
-  .hidden {
-    display: none;
   }
 </style>
 </head>
@@ -91,75 +71,50 @@
 
 <div class="card">
 
-  <h2>Create something special 💖</h2>
-
   <label>The one asking 💫</label>
   <input id="from">
 
   <label>The one I choose 💍</label>
   <input id="to">
 
-  <button onclick="generate()">Generate 💖</button>
+  <label>Your message 💌</label>
+  <textarea id="msg"></textarea>
 
-  <!-- RESULT SECTION -->
-  <div id="after" class="hidden">
+  <button onclick="generate()">Generate custom link 💖</button>
 
-    <h3>Customized proposal link</h3>
-
-    <button class="light" onclick="copyLink()">Copy link 🔗</button>
-    <button class="light" onclick="openLink()">Open link 💞</button>
-
-    <h3>Your personalized URL</h3>
-    <div class="box" id="urlBox"></div>
-
-    <h3>Ready-to-send message</h3>
-    <div class="box" id="msgBox"></div>
-
-  </div>
+  <div class="box" id="output"></div>
 
 </div>
 
 <script>
-let finalURL = "";
-let finalMessage = "";
-
 function generate() {
-  const from = document.getElementById("from").value.trim();
-  const to = document.getElementById("to").value.trim();
+  const from = fromEl.value.trim();
+  const to = toEl.value.trim();
+  const msg = msgEl.value.trim();
 
   if (!from || !to) {
-    alert("Please enter both names 💕");
+    alert("Fill names 💕");
     return;
   }
 
-  finalURL =
-    `https://narreshm.github.io/will-you-marry-me/valentine.html?partner=${encodeURIComponent(to)}`;
+  const base = location.origin + location.pathname.replace("custom.html","");
+  const url = base + `valentine.html?partner=${encodeURIComponent(to)}`;
 
-  finalMessage =
+  const final =
 `Hey ${to} 💖
 
-I made something special just for you…
-Open this when you're free 💍✨
+${msg || "I made something special just for you…"}
 
-${finalURL}
+${url}
 
 — ${from} 💕`;
 
-  document.getElementById("urlBox").innerText = finalURL;
-  document.getElementById("msgBox").innerText = finalMessage;
-
-  // ✅ THIS WAS THE MISSING PART — NOW IT SHOWS
-  document.getElementById("after").classList.remove("hidden");
+  document.getElementById("output").innerText = final;
 }
 
-function copyLink() {
-  navigator.clipboard.writeText(finalURL);
-  alert("Link copied 💖");
-}
-
-function openLink() {
-  window.open(finalURL, "_blank");
-}
+const fromEl = document.getElementById("from");
+const toEl = document.getElementById("to");
+const msgEl = document.getElementById("msg");
 </script>
 
 </body>

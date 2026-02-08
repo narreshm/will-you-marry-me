@@ -1,34 +1,107 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Choose purpose</title>
+<meta charset="UTF-8">
+<title>Choose what this is for 💖</title>
+
 <style>
-body{font-family:sans-serif;background:#fff0f5;padding:20px}
-.item{padding:18px;border-bottom:1px solid #f3a7bd;font-size:18px;cursor:pointer}
-.item:hover{background:#ffe6ef}
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#ffe6ef,#f7c6d0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card {
+    background: #fff;
+    width: 380px;
+    border-radius: 24px;
+    padding: 22px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  }
+
+  h2 {
+    text-align: center;
+    color: #ff5b8a;
+    margin-bottom: 14px;
+  }
+
+  .list {
+    max-height: 320px;
+    overflow-y: auto;
+    border-radius: 16px;
+  }
+
+  .item {
+    padding: 18px;
+    font-size: 18px;
+    cursor: pointer;
+    border-bottom: 1px solid #f3a7bd;
+    transition: background 0.2s ease;
+  }
+
+  .item:last-child {
+    border-bottom: none;
+  }
+
+  .item:hover {
+    background: #ffe6ef;
+  }
+
+  .hint {
+    text-align: center;
+    font-size: 13px;
+    color: #888;
+    margin-top: 10px;
+  }
 </style>
 </head>
+
 <body>
 
-<h2>Choose what this is for 💖</h2>
+<div class="card">
+  <h2>Choose what this is for 💖</h2>
 
-<div class="item" onclick="go('valentine')">💓 Valentine</div>
-<div class="item" onclick="go('marriage')">💍 Marriage</div>
-<div class="item" onclick="go('love')">❤️ Love</div>
-<div class="item" onclick="go('confession')">💌 Confession</div>
-<div class="item" onclick="go('anniversary')">💕 Anniversary</div>
-<div class="item" onclick="custom()">✍️ Customize message</div>
+  <div class="list">
+    <div class="item" onclick="go('valentine')">💓 Valentine</div>
+    <div class="item" onclick="go('marriage')">💍 Marriage</div>
+    <div class="item" onclick="go('love')">❤️ Love</div>
+    <div class="item" onclick="go('confession')">💌 Confession</div>
+    <div class="item" onclick="go('anniversary')">💕 Anniversary</div>
+    <div class="item" onclick="custom()">✍️ Customize message</div>
+  </div>
+
+  <div class="hint">Tap one option to continue ✨</div>
+</div>
 
 <script>
-const p=new URLSearchParams(location.search);
-const you=p.get("you"), partner=p.get("partner");
+const params = new URLSearchParams(location.search);
+const you = params.get("you");
+const partner = params.get("partner");
 
-function go(type){
-  location.href=`proposal.html?type=${type}&you=${you}&partner=${partner}`;
+function go(type) {
+  if (!you || !partner) {
+    alert("Missing names. Please start again 💕");
+    location.href = "index.html";
+    return;
+  }
+  location.href =
+    `proposal.html?type=${encodeURIComponent(type)}&you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}`;
 }
-function custom(){
-  location.href=`customize.html?you=${you}&partner=${partner}`;
+
+function custom() {
+  if (!you || !partner) {
+    alert("Missing names. Please start again 💕");
+    location.href = "index.html";
+    return;
+  }
+  location.href =
+    `customize.html?you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}`;
 }
 </script>
+
 </body>
 </html>

@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Special 💖</title>
+<title>Special Moment 💖</title>
 
 <style>
+/* 🌈 Animated soft background */
 body{
   margin:0;
   height:100vh;
@@ -12,24 +13,40 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  transition:background 0.4s ease;
+  background: linear-gradient(-45deg,#ffdde1,#fbc2eb,#cfd9df,#ffecd2);
+  background-size: 400% 400%;
+  animation: bgMove 15s ease infinite;
+  overflow:hidden;
 }
 
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+/* 💌 Card */
 .card{
-  background:#ffffff;
-  padding:42px 36px;
-  border-radius:30px;
+  background: rgba(255,255,255,0.96);
+  padding:44px 36px;
+  border-radius:32px;
   width:380px;
   text-align:center;
   box-shadow:0 30px 60px rgba(0,0,0,0.15);
+  animation: fadeUp 1.2s ease;
 }
 
-/* Top name */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* 👩‍❤️‍👨 Partner name */
 .name{
   font-size:22px;
   font-weight:600;
   color:#444;
-  margin-bottom:14px;
+  margin-bottom:10px;
 }
 
 /* Divider */
@@ -41,14 +58,14 @@ body{
   border-radius:3px;
 }
 
-/* Category title */
+/* 💖 Category (reason for page) */
 .category{
-  font-size:24px;
+  font-size:26px;
   font-weight:700;
-  margin-bottom:22px;
+  margin-bottom:24px;
 }
 
-/* Message */
+/* ✨ Message */
 .message{
   font-size:16px;
   line-height:1.7;
@@ -56,12 +73,25 @@ body{
   white-space:pre-wrap;
 }
 
-/* From */
+/* ✍️ From */
 .from{
   margin-top:30px;
   font-size:16px;
   font-weight:600;
   color:#ff5b8a;
+}
+
+/* 💕 Floating hearts */
+.heart{
+  position:absolute;
+  font-size:18px;
+  animation: floatUp 6s linear infinite;
+  opacity:0.7;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(100vh)}
+  to{transform:translateY(-10vh)}
 }
 </style>
 </head>
@@ -78,46 +108,36 @@ body{
 
 <script>
 const p = new URLSearchParams(location.search);
-
 const type = p.get("type");
 const you = p.get("you");
 const partner = p.get("partner");
 const msg = p.get("msg");
 
-// Capitalize first letter nicely
-function cap(text){
-  return text.charAt(0).toUpperCase() + text.slice(1);
-}
+function cap(t){ return t.charAt(0).toUpperCase()+t.slice(1); }
 
 const config = {
-  valentine: {
-    title: "💓 Valentine",
-    bg: "linear-gradient(135deg,#ffdde1,#fad0c4)"
-  },
-  marriage: {
-    title: "💍 Marriage Proposal",
-    bg: "linear-gradient(135deg,#fbc2eb,#a6c1ee)"
-  },
-  love: {
-    title: "❤️ Love",
-    bg: "linear-gradient(135deg,#ffecd2,#fcb69f)"
-  },
-  confession: {
-    title: "💌 Confession",
-    bg: "linear-gradient(135deg,#d4fc79,#96e6a1)"
-  },
-  anniversary: {
-    title: "💕 Anniversary",
-    bg: "linear-gradient(135deg,#cfd9df,#e2ebf0)"
-  }
+  valentine: { title:"💓 Valentine" },
+  marriage: { title:"💍 Marriage Proposal" },
+  love: { title:"❤️ Love" },
+  confession: { title:"💌 Confession" },
+  anniversary: { title:"💕 Anniversary" }
 };
 
-// Apply styles & content
-document.body.style.background = config[type].bg;
-document.getElementById("partner").innerText = cap(partner);
-document.getElementById("category").innerText = config[type].title;
-document.getElementById("msg").innerText = msg;
-document.getElementById("from").innerText = "— " + cap(you);
+partnerEl.innerText = cap(partner);
+category.innerText = config[type].title;
+msgEl = document.getElementById("msg");
+msgEl.innerText = msg;
+from.innerText = "— " + cap(you);
+
+/* 💕 Floating hearts generator */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText="💗";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},700);
 </script>
 
 </body>

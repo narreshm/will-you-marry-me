@@ -7,102 +7,153 @@
 <style>
   body {
     margin: 0;
-    height: 100vh;
-    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ffe6ef, #f7c6d0);
     font-family: 'Segoe UI', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  .box {
-    background: white;
-    padding: 35px;
-    border-radius: 20px;
-    width: 340px;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.25);
-  }
-
-  h2 {
-    color: #ff4d6d;
-    margin-bottom: 25px;
+  .card {
+    background: #ffeef4;
+    padding: 30px;
+    border-radius: 22px;
+    width: 360px;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
   }
 
   label {
-    display: block;
-    text-align: left;
     font-weight: 600;
-    margin: 12px 0 6px;
-    color: #444;
+    color: #a24b63;
+    display: block;
+    margin-bottom: 6px;
   }
 
   input {
     width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    font-size: 14px;
+    padding: 14px;
+    border-radius: 14px;
+    border: none;
+    margin-bottom: 18px;
+    font-size: 15px;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
   }
 
   button {
-    width: 100%;
-    margin-top: 20px;
+    flex: 1;
     padding: 12px;
-    border-radius: 30px;
+    border-radius: 25px;
     border: none;
-    background: #ff4d6d;
-    color: white;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
+    font-weight: 600;
   }
 
-  .link-box {
-    margin-top: 18px;
-    word-break: break-all;
+  .generate {
+    background: #ff5b8a;
+    color: white;
+  }
+
+  .light {
+    background: white;
+    color: #ff5b8a;
+  }
+
+  .box {
+    background: #fff4f8;
+    border: 2px dashed #f3a7bd;
+    padding: 12px;
+    border-radius: 14px;
     font-size: 13px;
+    word-break: break-all;
+    margin-top: 10px;
   }
 
-  a {
-    color: #ff4d6d;
-    text-decoration: none;
-    font-weight: bold;
+  h3 {
+    font-size: 14px;
+    margin-top: 18px;
+    color: #a24b63;
   }
 </style>
 </head>
 
 <body>
 
-<div class="box">
-  <h2>Create your proposal 💍</h2>
+<div class="card">
 
-  <label>Your Name 💙</label>
-  <input id="yourName" placeholder="Enter your name">
+  <label>Your Name</label>
+  <input id="you" placeholder="Akhil">
 
-  <label>Her Name 💖</label>
-  <input id="partnerName" placeholder="Enter her name">
+  <label>Your Partner's Name</label>
+  <input id="partner" placeholder="Manu">
 
-  <button onclick="generate()">Generate 💕</button>
+  <div class="btn-row">
+    <button class="generate" onclick="generate()">Generate 💖</button>
+    <button class="light" onclick="copyLink()">Copy link 🔗</button>
+  </div>
 
-  <div class="link-box" id="link"></div>
+  <div class="btn-row">
+    <button class="light" onclick="copyMessage()">Copy message 💌</button>
+    <button class="light" onclick="openLink()">Open link 💞</button>
+  </div>
+
+  <h3>Your personalized URL</h3>
+  <div class="box" id="urlBox">—</div>
+
+  <h3>Ready-to-send message</h3>
+  <div class="box" id="msgBox">—</div>
+
 </div>
 
 <script>
+let finalURL = "";
+let finalMessage = "";
+
 function generate() {
-  const you = document.getElementById("yourName").value.trim();
-  const partner = document.getElementById("partnerName").value.trim();
+  const you = document.getElementById("you").value.trim();
+  const partner = document.getElementById("partner").value.trim();
 
   if (!you || !partner) {
     alert("Please enter both names 💕");
     return;
   }
 
-  const url =
-    `valentine.html?you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}`;
+  finalURL =
+    `https://narreshm.github.io/will-you-marry-me/valentine.html?you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}`;
 
-  document.getElementById("link").innerHTML =
-    `Your personalized link 💌<br>
-     <a href="${url}" target="_blank">${url}</a>`;
+  finalMessage =
+`Hey ${partner} 💖
+
+I made something special just for you…
+Open this when you're free 💍✨
+
+${finalURL}
+
+With lots of love,
+${you} 💕`;
+
+  document.getElementById("urlBox").innerText = finalURL;
+  document.getElementById("msgBox").innerText = finalMessage;
+}
+
+function copyLink() {
+  navigator.clipboard.writeText(finalURL);
+  alert("Link copied 💖");
+}
+
+function copyMessage() {
+  navigator.clipboard.writeText(finalMessage);
+  alert("Message copied 💌");
+}
+
+function openLink() {
+  window.open(finalURL, "_blank");
 }
 </script>
 

@@ -5,6 +5,7 @@
 <title>Choose what this is for 💖</title>
 
 <style>
+/* ---------- BASIC LAYOUT ---------- */
 body{
   margin:0;
   min-height:100vh;
@@ -14,6 +15,7 @@ body{
   justify-content:center;
   align-items:center;
 }
+
 .card{
   background:#fff;
   width:400px;
@@ -21,12 +23,19 @@ body{
   border-radius:26px;
   box-shadow:0 20px 40px rgba(0,0,0,0.15);
 }
-h2{text-align:center;color:#ff5b8a}
+
+h2{
+  text-align:center;
+  color:#ff5b8a;
+}
+
+/* ---------- CATEGORY ---------- */
 .categories{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:10px;
 }
+
 .cat{
   padding:12px;
   border-radius:14px;
@@ -36,10 +45,13 @@ h2{text-align:center;color:#ff5b8a}
   font-weight:600;
   cursor:pointer;
 }
+
 .cat.active{
   background:#ff5b8a;
   color:#fff;
 }
+
+/* ---------- MESSAGE ---------- */
 textarea{
   width:100%;
   margin-top:12px;
@@ -48,7 +60,10 @@ textarea{
   border:none;
   background:#fff0f5;
   height:90px;
+  resize:none;
 }
+
+/* ---------- BUTTONS ---------- */
 button{
   width:100%;
   margin-top:12px;
@@ -58,34 +73,49 @@ button{
   font-weight:600;
   cursor:pointer;
 }
-.primary{background:#ff5b8a;color:#fff}
+
+.primary{
+  background:#ff5b8a;
+  color:#fff;
+}
+
 .light{
   background:#fff;
   color:#ff5b8a;
   border:1px solid #ffd1dc;
 }
-.row{display:flex;gap:10px}
-.hidden{display:none}
+
+.row{
+  display:flex;
+  gap:10px;
+}
+
+/* ---------- KEY FIX ---------- */
+.hidden{
+  display:none;
+}
 </style>
 </head>
 
 <body>
+
 <div class="card">
 
 <h2>Choose what this is for 💖</h2>
 
 <div class="categories">
-  <div class="cat active" onclick="setType('valentine')">💓 Valentine</div>
-  <div class="cat" onclick="setType('marriage')">💍 Marriage</div>
-  <div class="cat" onclick="setType('love')">❤️ Love</div>
-  <div class="cat" onclick="setType('confession')">💌 Confession</div>
-  <div class="cat" onclick="setType('anniversary')">💕 Anniversary</div>
+  <div class="cat active" onclick="setType('valentine', this)">💓 Valentine</div>
+  <div class="cat" onclick="setType('marriage', this)">💍 Marriage</div>
+  <div class="cat" onclick="setType('love', this)">❤️ Love</div>
+  <div class="cat" onclick="setType('confession', this)">💌 Confession</div>
+  <div class="cat" onclick="setType('anniversary', this)">💕 Anniversary</div>
 </div>
 
 <textarea id="message" placeholder="Customize your message ✍️ (required)"></textarea>
 
 <button class="primary" onclick="generate()">Generate 💖</button>
 
+<!-- ❌ HIDDEN BY DEFAULT -->
 <div id="afterGenerate" class="hidden">
   <div class="row">
     <button class="light" onclick="copyLink()">Copy link 🔗</button>
@@ -96,35 +126,47 @@ button{
 </div>
 
 <script>
-const p=new URLSearchParams(location.search);
-const you=p.get("you");
-const partner=p.get("partner");
+/* ---------- READ NAMES ---------- */
+const params = new URLSearchParams(location.search);
+const you = params.get("you");
+const partner = params.get("partner");
 
-let type="valentine";
-let finalURL="";
+/* ---------- STATE ---------- */
+let type = "valentine";
+let finalURL = "";
 
-function setType(t){
-  type=t;
-  document.querySelectorAll(".cat").forEach(c=>c.classList.remove("active"));
-  event.target.classList.add("active");
+/* ---------- CATEGORY SELECT ---------- */
+function setType(t, el){
+  type = t;
+  document.querySelectorAll(".cat").forEach(c => c.classList.remove("active"));
+  el.classList.add("active");
 }
 
+/* ---------- GENERATE ---------- */
 function generate(){
-  const msg=document.getElementById("message").value.trim();
-  if(!msg){alert("Message required 💕");return;}
+  const msg = document.getElementById("message").value.trim();
 
-  finalURL=`proposal.html?type=${type}&you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}&msg=${encodeURIComponent(msg)}`;
+  if(!msg){
+    alert("Customize message is required 💕");
+    return;
+  }
 
+  finalURL =
+    `proposal.html?type=${type}&you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}&msg=${encodeURIComponent(msg)}`;
+
+  /* ✅ THIS LINE MAKES BUTTONS APPEAR */
   document.getElementById("afterGenerate").classList.remove("hidden");
 }
 
+/* ---------- COPY ---------- */
 function copyLink(){
-  navigator.clipboard.writeText(location.origin+"/"+finalURL);
+  navigator.clipboard.writeText(location.origin + "/" + finalURL);
   alert("Link copied 🔗");
 }
 
+/* ---------- OPEN ---------- */
 function openLink(){
-  window.open(finalURL,"_blank");
+  window.open(finalURL, "_blank");
 }
 </script>
 

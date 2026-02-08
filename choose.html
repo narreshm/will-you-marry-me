@@ -50,16 +50,13 @@
     color: white;
   }
 
-  textarea, input {
+  textarea {
     width: 100%;
     padding: 12px;
     border-radius: 14px;
     border: none;
     margin-top: 12px;
     background: #fff0f5;
-  }
-
-  textarea {
     height: 90px;
     resize: none;
   }
@@ -85,6 +82,16 @@
     color: #ff5b8a;
     border: 1px solid #ffd1dc;
   }
+
+  .row {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .hidden {
+    display: none;
+  }
 </style>
 </head>
 
@@ -105,8 +112,14 @@
   <textarea id="message" placeholder="Customize your message ✍️ (required)"></textarea>
 
   <button class="primary" onclick="generate()">Generate 💖</button>
-  <button class="light" onclick="copyLink()">Copy link 🔗</button>
-  <button class="light" onclick="openLink()">Open link 💞</button>
+
+  <!-- 👇 NEW: shows AFTER generate -->
+  <div id="afterGenerate" class="hidden">
+    <div class="row">
+      <button class="light" onclick="copyLink()">Copy link 🔗</button>
+      <button class="light" onclick="openLink()">Open link 💞</button>
+    </div>
+  </div>
 
 </div>
 
@@ -132,19 +145,20 @@ function generate() {
   }
 
   finalURL =
-    `proposal.html?type=${type}&you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}&msg=${encodeURIComponent(msg)}`;
+    `proposal.html?type=${encodeURIComponent(type)}&you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}&msg=${encodeURIComponent(msg)}`;
+
+  // 👇 show Copy/Open buttons
+  document.getElementById("afterGenerate").classList.remove("hidden");
 
   alert("Link generated 💖");
 }
 
 function copyLink() {
-  if (!finalURL) return alert("Generate first 💕");
   navigator.clipboard.writeText(location.origin + "/" + finalURL);
   alert("Link copied 🔗");
 }
 
 function openLink() {
-  if (!finalURL) return alert("Generate first 💕");
   window.open(finalURL, "_blank");
 }
 </script>

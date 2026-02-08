@@ -18,8 +18,8 @@
   .card {
     background: #fff;
     padding: 30px;
-    border-radius: 22px;
-    width: 360px;
+    border-radius: 24px;
+    width: 380px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   }
 
@@ -27,21 +27,27 @@
     font-weight: 600;
     color: #a24b63;
     display: block;
-    margin-top: 15px;
+    margin-top: 14px;
   }
 
-  input {
+  input, textarea {
     width: 100%;
     padding: 14px;
     border-radius: 14px;
     border: none;
     margin-top: 6px;
     background: #fff0f5;
+    font-size: 14px;
+  }
+
+  textarea {
+    height: 90px;
+    resize: none;
   }
 
   button {
     width: 100%;
-    margin-top: 18px;
+    margin-top: 14px;
     padding: 14px;
     border-radius: 30px;
     border: none;
@@ -59,6 +65,23 @@
     background: white;
     color: #ff5b8a;
     border: 1px solid #ffd1dc;
+  }
+
+  .purpose {
+    background: #fff4f8;
+    border: 1px solid #ffd1dc;
+    color: #a24b63;
+  }
+
+  .row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .row button {
+    flex: 1;
   }
 
   .box {
@@ -89,19 +112,33 @@
 
   <button class="generate" onclick="generate()">Generate 💖</button>
 
-  <!-- THIS SECTION WILL APPEAR -->
-  <div id="result" class="hidden">
+  <!-- PAGE 2 CONTENT -->
+  <div id="after" class="hidden">
 
-    <button class="light" onclick="copyLink()">Copy link 🔗</button>
-    <button class="light" onclick="openLink()">Open link 💞</button>
+    <div class="row">
+      <button class="purpose" onclick="setMessage('marriage')">Marriage 💍</button>
+      <button class="purpose" onclick="setMessage('love')">Love ❤️</button>
+      <button class="purpose" onclick="setMessage('confession')">Confession 💌</button>
+      <button class="purpose" onclick="setMessage('anniversary')">Anniversary 💕</button>
+    </div>
+
+    <button class="light" onclick="toggleCustom()">Customize ✍️</button>
+
+    <div id="customBox" class="hidden">
+      <textarea id="customText" placeholder="Write your own message…"></textarea>
+      <button class="light" onclick="applyCustom()">Apply custom message</button>
+    </div>
+
+    <div class="row">
+      <button class="light" onclick="copyLink()">Copy link 🔗</button>
+      <button class="light" onclick="openLink()">Open link 💞</button>
+    </div>
 
     <h4>Your personalized URL</h4>
     <div class="box" id="urlBox"></div>
 
     <h4>Ready-to-send message</h4>
     <div class="box" id="msgBox"></div>
-
-    <button class="light" onclick="openCustom()">Customize message ✨</button>
 
   </div>
 
@@ -110,10 +147,11 @@
 <script>
 let finalURL = "";
 let finalMsg = "";
+let from = "", to = "";
 
 function generate() {
-  const from = document.getElementById("from").value.trim();
-  const to = document.getElementById("to").value.trim();
+  from = document.getElementById("from").value.trim();
+  to = document.getElementById("to").value.trim();
 
   if (!from || !to) {
     alert("Please enter both names 💕");
@@ -121,36 +159,86 @@ function generate() {
   }
 
   finalURL =
-    `valentine.html?partner=${encodeURIComponent(to)}`;
+    `https://narreshm.github.io/will-you-marry-me/valentine.html?you=${encodeURIComponent(from)}&partner=${encodeURIComponent(to)}`;
 
-  finalMsg =
-`Hey ${to} 💖
+  document.getElementById("urlBox").innerText = finalURL;
+  setMessage("marriage");
 
-I made something special just for you…
-Open this when you're free 💍✨
+  document.getElementById("after").classList.remove("hidden");
+}
 
-${location.origin + location.pathname.replace("index.html","") + finalURL}
+function setMessage(type) {
+  const messages = {
+    marriage: `Hey ${to} 💖
+
+Will you marry me? 💍
+I want to spend my forever with you.
+
+${finalURL}
+
+With lots of love,
+${from} 💕`,
+
+    love: `Hey ${to} ❤️
+
+I just want you to know…
+I’m deeply in love with you.
+
+${finalURL}
+
+Always yours,
+${from} 💖`,
+
+    confession: `Hey ${to} 💌
+
+I’ve been meaning to tell you this…
+You mean everything to me.
+
+${finalURL}
+
+— ${from}`,
+
+    anniversary: `Hey ${to} 💕
+
+Happy Anniversary!
+Thank you for being my everything.
+
+${finalURL}
+
+Forever us,
+${from} 💕`
+  };
+
+  finalMsg = messages[type];
+  document.getElementById("msgBox").innerText = finalMsg;
+}
+
+function toggleCustom() {
+  document.getElementById("customBox").classList.toggle("hidden");
+}
+
+function applyCustom() {
+  const text = document.getElementById("customText").value.trim();
+  if (!text) return;
+
+  finalMsg = `Hey ${to} 💖
+
+${text}
+
+${finalURL}
 
 — ${from} 💕`;
 
-  document.getElementById("urlBox").innerText =
-    location.origin + location.pathname.replace("index.html","") + finalURL;
-
   document.getElementById("msgBox").innerText = finalMsg;
-  document.getElementById("result").classList.remove("hidden");
 }
 
 function copyLink() {
-  navigator.clipboard.writeText(document.getElementById("urlBox").innerText);
+  navigator.clipboard.writeText(finalURL);
   alert("Link copied 💖");
 }
 
 function openLink() {
   window.open(finalURL, "_blank");
-}
-
-function openCustom() {
-  window.open("custom.html", "_blank");
 }
 </script>
 

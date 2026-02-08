@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Special 💖</title>
@@ -12,41 +12,113 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
+  transition:background 0.4s ease;
 }
+
 .card{
-  background:#fff;
-  padding:40px;
-  border-radius:28px;
+  background:#ffffff;
+  padding:42px 36px;
+  border-radius:30px;
   width:380px;
   text-align:center;
-  box-shadow:0 25px 50px rgba(0,0,0,0.15);
+  box-shadow:0 30px 60px rgba(0,0,0,0.15);
 }
-p{white-space:pre-wrap;line-height:1.6}
+
+/* Top name */
+.name{
+  font-size:22px;
+  font-weight:600;
+  color:#444;
+  margin-bottom:14px;
+}
+
+/* Divider */
+.line{
+  width:60px;
+  height:3px;
+  background:#ff5b8a;
+  margin:0 auto 18px;
+  border-radius:3px;
+}
+
+/* Category title */
+.category{
+  font-size:24px;
+  font-weight:700;
+  margin-bottom:22px;
+}
+
+/* Message */
+.message{
+  font-size:16px;
+  line-height:1.7;
+  color:#555;
+  white-space:pre-wrap;
+}
+
+/* From */
+.from{
+  margin-top:30px;
+  font-size:16px;
+  font-weight:600;
+  color:#ff5b8a;
+}
 </style>
 </head>
 
 <body>
+
 <div class="card">
-  <h1 id="title"></h1>
-  <p id="msg"></p>
-  <div id="from"></div>
+  <div class="name" id="partner"></div>
+  <div class="line"></div>
+  <div class="category" id="category"></div>
+  <div class="message" id="msg"></div>
+  <div class="from" id="from"></div>
 </div>
 
 <script>
-const p=new URLSearchParams(location.search);
-const cfg={
-  valentine:{t:"💓 Valentine",bg:"#ffdde1"},
-  marriage:{t:"💍 Marriage",bg:"#e0c3fc"},
-  love:{t:"❤️ Love",bg:"#ffecd2"},
-  confession:{t:"💌 Confession",bg:"#d4fc79"},
-  anniversary:{t:"💕 Anniversary",bg:"#cfd9df"}
+const p = new URLSearchParams(location.search);
+
+const type = p.get("type");
+const you = p.get("you");
+const partner = p.get("partner");
+const msg = p.get("msg");
+
+// Capitalize first letter nicely
+function cap(text){
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+const config = {
+  valentine: {
+    title: "💓 Valentine",
+    bg: "linear-gradient(135deg,#ffdde1,#fad0c4)"
+  },
+  marriage: {
+    title: "💍 Marriage Proposal",
+    bg: "linear-gradient(135deg,#fbc2eb,#a6c1ee)"
+  },
+  love: {
+    title: "❤️ Love",
+    bg: "linear-gradient(135deg,#ffecd2,#fcb69f)"
+  },
+  confession: {
+    title: "💌 Confession",
+    bg: "linear-gradient(135deg,#d4fc79,#96e6a1)"
+  },
+  anniversary: {
+    title: "💕 Anniversary",
+    bg: "linear-gradient(135deg,#cfd9df,#e2ebf0)"
+  }
 };
 
-const type=p.get("type");
-document.body.style.background=cfg[type].bg;
-title.innerText=p.get("partner")+", "+cfg[type].t;
-msg.innerText=p.get("msg");
-from.innerText="— "+p.get("you");
+// Apply styles & content
+document.body.style.background = config[type].bg;
+document.getElementById("partner").innerText = cap(partner);
+document.getElementById("category").innerText = config[type].title;
+document.getElementById("msg").innerText = msg;
+document.getElementById("from").innerText = "— " + cap(you);
 </script>
+
 </body>
 </html>

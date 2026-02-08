@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Create your message 💖</title>
+<title>Start 💖</title>
 
 <style>
   body {
     margin: 0;
-    min-height: 100vh;
+    height: 100vh;
     font-family: 'Segoe UI', sans-serif;
     background: linear-gradient(135deg,#ffe6ef,#f7c6d0);
     display: flex;
@@ -17,9 +17,9 @@
 
   .card {
     background: #fff;
-    padding: 28px;
-    border-radius: 22px;
-    width: 380px;
+    padding: 30px;
+    border-radius: 24px;
+    width: 340px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   }
 
@@ -27,49 +27,30 @@
     font-weight: 600;
     color: #a24b63;
     display: block;
-    margin-top: 14px;
+    margin-top: 16px;
   }
 
-  input, textarea {
+  input {
     width: 100%;
     padding: 14px;
     border-radius: 14px;
     border: none;
     margin-top: 6px;
     background: #fff0f5;
-    font-size: 14px;
-  }
-
-  textarea {
-    height: 90px;
-    resize: none;
+    font-size: 15px;
   }
 
   button {
     width: 100%;
-    margin-top: 14px;
+    margin-top: 26px;
     padding: 14px;
     border-radius: 30px;
     border: none;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .generate {
     background: #ff5b8a;
     color: white;
-  }
-
-  .light {
-    background: white;
-    color: #ff5b8a;
-    border: 1px solid #ffd1dc;
-  }
-
-  .row {
-    display: flex;
-    gap: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
   }
 </style>
 </head>
@@ -84,52 +65,24 @@
   <label>The one I choose 💍</label>
   <input id="partner" placeholder="Partner name">
 
-  <label>Customize your message ✍️</label>
-  <textarea id="message" placeholder="Write what you want to say… (required)"></textarea>
-
-  <button class="generate" onclick="generate()">Generate 💖</button>
-
-  <div class="row">
-    <button class="light" onclick="copyLink()">Copy link 🔗</button>
-    <button class="light" onclick="openLink()">Open link 💞</button>
-  </div>
+  <!-- 🔽 TEXT CHANGED HERE -->
+  <button onclick="go()">Next ➡️</button>
 
 </div>
 
 <script>
-let finalURL = "";
-
-function generate() {
+function go() {
   const you = document.getElementById("you").value.trim();
   const partner = document.getElementById("partner").value.trim();
-  const message = document.getElementById("message").value.trim();
 
-  if (!you || !partner || !message) {
-    alert("All fields are required 💕");
+  if (!you || !partner) {
+    alert("Please enter both names 💕");
     return;
   }
 
-  finalURL =
-    `proposal.html?you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}&msg=${encodeURIComponent(message)}`;
-
-  alert("Link generated 💖");
-}
-
-function copyLink() {
-  if (!finalURL) {
-    alert("Click Generate first 💕");
-    return;
-  }
-  navigator.clipboard.writeText(location.origin + "/" + finalURL);
-  alert("Link copied 🔗");
-}
-
-function openLink() {
-  if (!finalURL) {
-    alert("Click Generate first 💕");
-    return;
-  }
-  window.open(finalURL, "_blank");
+  // Go to Page 2
+  location.href =
+    `choose.html?you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}`;
 }
 </script>
 

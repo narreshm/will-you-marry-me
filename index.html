@@ -1,246 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Create your proposal 💍</title>
-
+<title>Start 💖</title>
 <style>
-  body {
-    margin: 0;
-    min-height: 100vh;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg,#ffe6ef,#f7c6d0);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .card {
-    background: #fff;
-    padding: 30px;
-    border-radius: 24px;
-    width: 380px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  }
-
-  label {
-    font-weight: 600;
-    color: #a24b63;
-    display: block;
-    margin-top: 14px;
-  }
-
-  input, textarea {
-    width: 100%;
-    padding: 14px;
-    border-radius: 14px;
-    border: none;
-    margin-top: 6px;
-    background: #fff0f5;
-    font-size: 14px;
-  }
-
-  textarea {
-    height: 90px;
-    resize: none;
-  }
-
-  button {
-    width: 100%;
-    margin-top: 14px;
-    padding: 14px;
-    border-radius: 30px;
-    border: none;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-  }
-
-  .generate {
-    background: #ff5b8a;
-    color: white;
-  }
-
-  .light {
-    background: white;
-    color: #ff5b8a;
-    border: 1px solid #ffd1dc;
-  }
-
-  .purpose {
-    background: #fff4f8;
-    border: 1px solid #ffd1dc;
-    color: #a24b63;
-  }
-
-  .row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 10px;
-  }
-
-  .row button {
-    flex: 1;
-  }
-
-  .box {
-    margin-top: 10px;
-    background: #fff4f8;
-    border: 2px dashed #f3a7bd;
-    padding: 12px;
-    border-radius: 14px;
-    font-size: 13px;
-    word-break: break-all;
-  }
-
-  .hidden {
-    display: none;
-  }
+body{font-family:sans-serif;background:#ffe6ef;height:100vh;display:flex;justify-content:center;align-items:center}
+.card{background:#fff;padding:30px;border-radius:20px;width:320px}
+input,button{width:100%;padding:12px;margin-top:10px;border-radius:12px;border:none}
+button{background:#ff5b8a;color:#fff;font-weight:600}
 </style>
 </head>
-
 <body>
 
 <div class="card">
-
   <label>The one asking 💫</label>
-  <input id="from">
+  <input id="you">
 
   <label>The one I choose 💍</label>
-  <input id="to">
+  <input id="partner">
 
-  <button class="generate" onclick="generate()">Generate 💖</button>
-
-  <!-- PAGE 2 CONTENT -->
-  <div id="after" class="hidden">
-
-    <div class="row">
-      <button class="purpose" onclick="setMessage('marriage')">Marriage 💍</button>
-      <button class="purpose" onclick="setMessage('love')">Love ❤️</button>
-      <button class="purpose" onclick="setMessage('confession')">Confession 💌</button>
-      <button class="purpose" onclick="setMessage('anniversary')">Anniversary 💕</button>
-    </div>
-
-    <button class="light" onclick="toggleCustom()">Customize ✍️</button>
-
-    <div id="customBox" class="hidden">
-      <textarea id="customText" placeholder="Write your own message…"></textarea>
-      <button class="light" onclick="applyCustom()">Apply custom message</button>
-    </div>
-
-    <div class="row">
-      <button class="light" onclick="copyLink()">Copy link 🔗</button>
-      <button class="light" onclick="openLink()">Open link 💞</button>
-    </div>
-
-    <h4>Your personalized URL</h4>
-    <div class="box" id="urlBox"></div>
-
-    <h4>Ready-to-send message</h4>
-    <div class="box" id="msgBox"></div>
-
-  </div>
-
+  <button onclick="go()">Generate 💖</button>
 </div>
 
 <script>
-let finalURL = "";
-let finalMsg = "";
-let from = "", to = "";
-
-function generate() {
-  from = document.getElementById("from").value.trim();
-  to = document.getElementById("to").value.trim();
-
-  if (!from || !to) {
-    alert("Please enter both names 💕");
-    return;
-  }
-
-  finalURL =
-    `https://narreshm.github.io/will-you-marry-me/valentine.html?you=${encodeURIComponent(from)}&partner=${encodeURIComponent(to)}`;
-
-  document.getElementById("urlBox").innerText = finalURL;
-  setMessage("marriage");
-
-  document.getElementById("after").classList.remove("hidden");
-}
-
-function setMessage(type) {
-  const messages = {
-    marriage: `Hey ${to} 💖
-
-Will you marry me? 💍
-I want to spend my forever with you.
-
-${finalURL}
-
-With lots of love,
-${from} 💕`,
-
-    love: `Hey ${to} ❤️
-
-I just want you to know…
-I’m deeply in love with you.
-
-${finalURL}
-
-Always yours,
-${from} 💖`,
-
-    confession: `Hey ${to} 💌
-
-I’ve been meaning to tell you this…
-You mean everything to me.
-
-${finalURL}
-
-— ${from}`,
-
-    anniversary: `Hey ${to} 💕
-
-Happy Anniversary!
-Thank you for being my everything.
-
-${finalURL}
-
-Forever us,
-${from} 💕`
-  };
-
-  finalMsg = messages[type];
-  document.getElementById("msgBox").innerText = finalMsg;
-}
-
-function toggleCustom() {
-  document.getElementById("customBox").classList.toggle("hidden");
-}
-
-function applyCustom() {
-  const text = document.getElementById("customText").value.trim();
-  if (!text) return;
-
-  finalMsg = `Hey ${to} 💖
-
-${text}
-
-${finalURL}
-
-— ${from} 💕`;
-
-  document.getElementById("msgBox").innerText = finalMsg;
-}
-
-function copyLink() {
-  navigator.clipboard.writeText(finalURL);
-  alert("Link copied 💖");
-}
-
-function openLink() {
-  window.open(finalURL, "_blank");
+function go(){
+  const y=you.value.trim(), p=partner.value.trim();
+  if(!y||!p){alert("Fill both");return;}
+  location.href=`choose.html?you=${y}&partner=${p}`;
 }
 </script>
-
 </body>
 </html>

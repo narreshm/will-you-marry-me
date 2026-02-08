@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Customize ✍️</title>
+<style>
+body{font-family:sans-serif;background:#fff0f5;padding:20px}
+textarea,button{width:100%;padding:14px;border-radius:12px;border:none;margin-top:10px}
+button{background:#ff5b8a;color:#fff}
+</style>
+</head>
+<body>
+
+<h2>Write your message 💖</h2>
+
+<textarea id="msg" placeholder="Write anything you want…"></textarea>
+<button onclick="preview()">Preview</button>
+
+<div id="out"></div>
+
+<script>
+const p=new URLSearchParams(location.search);
+function preview(){
+  out.innerText = `
+${p.get("partner")},
+
+${msg.value}
+
+— ${p.get("you")}
+`;
+}
+</script>
+</body>
+</html>

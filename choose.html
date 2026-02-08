@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Choose purpose</title>
+<style>
+body{font-family:sans-serif;background:#fff0f5;padding:20px}
+.item{padding:18px;border-bottom:1px solid #f3a7bd;font-size:18px;cursor:pointer}
+.item:hover{background:#ffe6ef}
+</style>
+</head>
+<body>
+
+<h2>Choose what this is for 💖</h2>
+
+<div class="item" onclick="go('valentine')">💓 Valentine</div>
+<div class="item" onclick="go('marriage')">💍 Marriage</div>
+<div class="item" onclick="go('love')">❤️ Love</div>
+<div class="item" onclick="go('confession')">💌 Confession</div>
+<div class="item" onclick="go('anniversary')">💕 Anniversary</div>
+<div class="item" onclick="custom()">✍️ Customize message</div>
+
+<script>
+const p=new URLSearchParams(location.search);
+const you=p.get("you"), partner=p.get("partner");
+
+function go(type){
+  location.href=`proposal.html?type=${type}&you=${you}&partner=${partner}`;
+}
+function custom(){
+  location.href=`customize.html?you=${you}&partner=${partner}`;
+}
+</script>
+</body>
+</html>

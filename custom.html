@@ -42,18 +42,13 @@
     margin: 14px 0 6px;
   }
 
-  input, select, textarea {
+  input {
     width: 100%;
     padding: 14px;
     border-radius: 14px;
     border: none;
     font-size: 14px;
     background: #fff0f5;
-  }
-
-  textarea {
-    resize: none;
-    height: 90px;
   }
 
   button {
@@ -104,21 +99,9 @@
   <label>The one I choose 💍</label>
   <input id="to">
 
-  <label>What is this for?</label>
-  <select id="type">
-    <option>Marriage Proposal 💍</option>
-    <option>Love Proposal ❤️</option>
-    <option>Confession 💌</option>
-    <option>Anniversary 💕</option>
-    <option>Just Because 🥰</option>
-  </select>
-
-  <label>Your message 💬</label>
-  <textarea id="customText" placeholder="Write what you really feel…"></textarea>
-
   <button onclick="generate()">Generate 💖</button>
 
-  <!-- CLEARLY VISIBLE AFTER GENERATE -->
+  <!-- RESULT SECTION -->
   <div id="after" class="hidden">
 
     <h3>Customized proposal link</h3>
@@ -143,11 +126,9 @@ let finalMessage = "";
 function generate() {
   const from = document.getElementById("from").value.trim();
   const to = document.getElementById("to").value.trim();
-  const type = document.getElementById("type").value;
-  const text = document.getElementById("customText").value.trim();
 
-  if (!from || !to || !text) {
-    alert("Please fill everything 💕");
+  if (!from || !to) {
+    alert("Please enter both names 💕");
     return;
   }
 
@@ -155,13 +136,11 @@ function generate() {
     `https://narreshm.github.io/will-you-marry-me/valentine.html?partner=${encodeURIComponent(to)}`;
 
   finalMessage =
-`${type}
+`Hey ${to} 💖
 
-Hey ${to} 💖
+I made something special just for you…
+Open this when you're free 💍✨
 
-${text}
-
-Open this when you're free ✨
 ${finalURL}
 
 — ${from} 💕`;
@@ -169,7 +148,7 @@ ${finalURL}
   document.getElementById("urlBox").innerText = finalURL;
   document.getElementById("msgBox").innerText = finalMessage;
 
-  // ✅ SHOW THE SECTION
+  // ✅ THIS WAS THE MISSING PART — NOW IT SHOWS
   document.getElementById("after").classList.remove("hidden");
 }
 

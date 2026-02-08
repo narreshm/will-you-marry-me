@@ -12,13 +12,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background 2s ease;
+    background: linear-gradient(135deg, #ffe6ef, #f7c6d0);
   }
 
   .card {
-    background: rgba(255,255,255,0.9);
-    padding: 30px;
-    border-radius: 24px;
+    background: rgba(255,255,255,0.95);
+    padding: 32px;
+    border-radius: 26px;
     width: 360px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   }
@@ -28,6 +28,7 @@
     color: #a24b63;
     display: block;
     margin-bottom: 6px;
+    margin-top: 16px;
   }
 
   input {
@@ -35,25 +36,19 @@
     padding: 14px;
     border-radius: 14px;
     border: none;
-    margin-bottom: 18px;
     font-size: 15px;
     background: #fff0f5;
   }
 
-  .btn-row {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 12px;
-  }
-
   button {
-    flex: 1;
-    padding: 12px;
-    border-radius: 25px;
+    width: 100%;
+    margin-top: 22px;
+    padding: 14px;
+    border-radius: 30px;
     border: none;
-    font-size: 14px;
-    cursor: pointer;
+    font-size: 15px;
     font-weight: 600;
+    cursor: pointer;
   }
 
   .generate {
@@ -62,8 +57,10 @@
   }
 
   .light {
-    background: #ffffff;
+    background: white;
     color: #ff5b8a;
+    border: 1px solid #ffd1dc;
+    margin-top: 12px;
   }
 
   h3 {
@@ -82,6 +79,10 @@
     min-height: 40px;
     color: #555;
   }
+
+  .hidden {
+    display: none;
+  }
 </style>
 </head>
 
@@ -90,60 +91,46 @@
 <div class="card">
 
   <label>The one asking 💫</label>
-  <input id="you" placeholder="Akhil">
+  <input id="you">
 
   <label>The one I choose 💍</label>
-  <input id="partner" placeholder="Manu">
+  <input id="partner">
 
-  <div class="btn-row">
-    <button class="generate" onclick="generate()">Generate 💖</button>
+  <button class="generate" onclick="generate()">Generate 💖</button>
+
+  <!-- Appears AFTER generate -->
+  <div id="after" class="hidden">
+
     <button class="light" onclick="copyLink()">Copy link 🔗</button>
-  </div>
-
-  <div class="btn-row">
     <button class="light" onclick="openLink()">Open link 💞</button>
+
+    <h3>Your personalized URL</h3>
+    <div class="box" id="urlBox"></div>
+
+    <h3>Ready-to-send message</h3>
+    <div class="box" id="msgBox"></div>
+
   </div>
-
-  <h3>Your personalized URL</h3>
-  <div class="box" id="urlBox"></div>
-
-  <h3>Ready-to-send message</h3>
-  <div class="box" id="msgBox"></div>
 
 </div>
 
 <script>
-  /* 🌈 Soft love mood colors */
-  const colors = [
-    "linear-gradient(135deg,#ffe6ef,#f7c6d0)",
-    "linear-gradient(135deg,#fff1eb,#ace0f9)",
-    "linear-gradient(135deg,#fbc8d4,#9795f0)",
-    "linear-gradient(135deg,#ffecd2,#fcb69f)",
-    "linear-gradient(135deg,#fddde6,#c2e9fb)"
-  ];
+let finalURL = "";
+let finalMessage = "";
 
-  let i = 0;
-  setInterval(() => {
-    document.body.style.background = colors[i % colors.length];
-    i++;
-  }, 5000);
+function generate() {
+  const you = document.getElementById("you").value.trim();
+  const partner = document.getElementById("partner").value.trim();
 
-  let finalURL = "";
-  let finalMessage = "";
+  if (!you || !partner) {
+    alert("Please enter both names 💕");
+    return;
+  }
 
-  function generate() {
-    const you = document.getElementById("you").value.trim();
-    const partner = document.getElementById("partner").value.trim();
+  finalURL =
+    `https://narreshm.github.io/will-you-marry-me/valentine.html?you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}`;
 
-    if (!you || !partner) {
-      alert("Please enter both names 💕");
-      return;
-    }
-
-    finalURL =
-      `https://narreshm.github.io/will-you-marry-me/valentine.html?you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}`;
-
-    finalMessage =
+  finalMessage =
 `Hey ${partner} 💖
 
 I made something special just for you…
@@ -154,26 +141,20 @@ ${finalURL}
 With lots of love,
 ${you} 💕`;
 
-    document.getElementById("urlBox").innerText = finalURL;
-    document.getElementById("msgBox").innerText = finalMessage;
-  }
+  document.getElementById("urlBox").innerText = finalURL;
+  document.getElementById("msgBox").innerText = finalMessage;
 
-  function copyLink() {
-    if (!finalURL) {
-      alert("Generate the link first 💕");
-      return;
-    }
-    navigator.clipboard.writeText(finalURL);
-    alert("Link copied 💖");
-  }
+  document.getElementById("after").classList.remove("hidden");
+}
 
-  function openLink() {
-    if (!finalURL) {
-      alert("Generate the link first 💕");
-      return;
-    }
-    window.open(finalURL, "_blank");
-  }
+function copyLink() {
+  navigator.clipboard.writeText(finalURL);
+  alert("Link copied 💖");
+}
+
+function openLink() {
+  window.open(finalURL, "_blank");
+}
 </script>
 
 </body>

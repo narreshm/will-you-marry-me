@@ -8,19 +8,19 @@
   body {
     margin: 0;
     min-height: 100vh;
-    background: linear-gradient(135deg, #ffe6ef, #f7c6d0);
     font-family: 'Segoe UI', sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: background 2s ease;
   }
 
   .card {
-    background: #ffeef4;
+    background: rgba(255,255,255,0.9);
     padding: 30px;
-    border-radius: 22px;
+    border-radius: 24px;
     width: 360px;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   }
 
   label {
@@ -37,6 +37,7 @@
     border: none;
     margin-bottom: 18px;
     font-size: 15px;
+    background: #fff0f5;
   }
 
   .btn-row {
@@ -61,8 +62,14 @@
   }
 
   .light {
-    background: white;
+    background: #ffffff;
     color: #ff5b8a;
+  }
+
+  h3 {
+    font-size: 14px;
+    margin-top: 18px;
+    color: #a24b63;
   }
 
   .box {
@@ -72,13 +79,8 @@
     border-radius: 14px;
     font-size: 13px;
     word-break: break-all;
-    margin-top: 10px;
-  }
-
-  h3 {
-    font-size: 14px;
-    margin-top: 18px;
-    color: #a24b63;
+    min-height: 40px;
+    color: #555;
   }
 </style>
 </head>
@@ -87,10 +89,10 @@
 
 <div class="card">
 
-  <label>Your Name</label>
+  <label>The one asking 💫</label>
   <input id="you" placeholder="Akhil">
 
-  <label>Your Partner's Name</label>
+  <label>The one I choose 💍</label>
   <input id="partner" placeholder="Manu">
 
   <div class="btn-row">
@@ -99,35 +101,49 @@
   </div>
 
   <div class="btn-row">
-    <button class="light" onclick="copyMessage()">Copy message 💌</button>
     <button class="light" onclick="openLink()">Open link 💞</button>
   </div>
 
   <h3>Your personalized URL</h3>
-  <div class="box" id="urlBox">—</div>
+  <div class="box" id="urlBox"></div>
 
   <h3>Ready-to-send message</h3>
-  <div class="box" id="msgBox">—</div>
+  <div class="box" id="msgBox"></div>
 
 </div>
 
 <script>
-let finalURL = "";
-let finalMessage = "";
+  /* 🌈 Soft love mood colors */
+  const colors = [
+    "linear-gradient(135deg,#ffe6ef,#f7c6d0)",
+    "linear-gradient(135deg,#fff1eb,#ace0f9)",
+    "linear-gradient(135deg,#fbc8d4,#9795f0)",
+    "linear-gradient(135deg,#ffecd2,#fcb69f)",
+    "linear-gradient(135deg,#fddde6,#c2e9fb)"
+  ];
 
-function generate() {
-  const you = document.getElementById("you").value.trim();
-  const partner = document.getElementById("partner").value.trim();
+  let i = 0;
+  setInterval(() => {
+    document.body.style.background = colors[i % colors.length];
+    i++;
+  }, 5000);
 
-  if (!you || !partner) {
-    alert("Please enter both names 💕");
-    return;
-  }
+  let finalURL = "";
+  let finalMessage = "";
 
-  finalURL =
-    `https://narreshm.github.io/will-you-marry-me/valentine.html?you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}`;
+  function generate() {
+    const you = document.getElementById("you").value.trim();
+    const partner = document.getElementById("partner").value.trim();
 
-  finalMessage =
+    if (!you || !partner) {
+      alert("Please enter both names 💕");
+      return;
+    }
+
+    finalURL =
+      `https://narreshm.github.io/will-you-marry-me/valentine.html?you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}`;
+
+    finalMessage =
 `Hey ${partner} 💖
 
 I made something special just for you…
@@ -138,23 +154,26 @@ ${finalURL}
 With lots of love,
 ${you} 💕`;
 
-  document.getElementById("urlBox").innerText = finalURL;
-  document.getElementById("msgBox").innerText = finalMessage;
-}
+    document.getElementById("urlBox").innerText = finalURL;
+    document.getElementById("msgBox").innerText = finalMessage;
+  }
 
-function copyLink() {
-  navigator.clipboard.writeText(finalURL);
-  alert("Link copied 💖");
-}
+  function copyLink() {
+    if (!finalURL) {
+      alert("Generate the link first 💕");
+      return;
+    }
+    navigator.clipboard.writeText(finalURL);
+    alert("Link copied 💖");
+  }
 
-function copyMessage() {
-  navigator.clipboard.writeText(finalMessage);
-  alert("Message copied 💌");
-}
-
-function openLink() {
-  window.open(finalURL, "_blank");
-}
+  function openLink() {
+    if (!finalURL) {
+      alert("Generate the link first 💕");
+      return;
+    }
+    window.open(finalURL, "_blank");
+  }
 </script>
 
 </body>

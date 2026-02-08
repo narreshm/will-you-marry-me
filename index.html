@@ -1,32 +1,137 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Start 💖</title>
+<meta charset="UTF-8">
+<title>Create your message 💖</title>
+
 <style>
-body{font-family:sans-serif;background:#ffe6ef;height:100vh;display:flex;justify-content:center;align-items:center}
-.card{background:#fff;padding:30px;border-radius:20px;width:320px}
-input,button{width:100%;padding:12px;margin-top:10px;border-radius:12px;border:none}
-button{background:#ff5b8a;color:#fff;font-weight:600}
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg,#ffe6ef,#f7c6d0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card {
+    background: #fff;
+    padding: 28px;
+    border-radius: 22px;
+    width: 380px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  }
+
+  label {
+    font-weight: 600;
+    color: #a24b63;
+    display: block;
+    margin-top: 14px;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 14px;
+    border-radius: 14px;
+    border: none;
+    margin-top: 6px;
+    background: #fff0f5;
+    font-size: 14px;
+  }
+
+  textarea {
+    height: 90px;
+    resize: none;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 14px;
+    border-radius: 30px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .generate {
+    background: #ff5b8a;
+    color: white;
+  }
+
+  .light {
+    background: white;
+    color: #ff5b8a;
+    border: 1px solid #ffd1dc;
+  }
+
+  .row {
+    display: flex;
+    gap: 10px;
+  }
 </style>
 </head>
+
 <body>
 
 <div class="card">
+
   <label>The one asking 💫</label>
-  <input id="you">
+  <input id="you" placeholder="Your name">
 
   <label>The one I choose 💍</label>
-  <input id="partner">
+  <input id="partner" placeholder="Partner name">
 
-  <button onclick="go()">Generate 💖</button>
+  <label>Customize your message ✍️</label>
+  <textarea id="message" placeholder="Write what you want to say… (required)"></textarea>
+
+  <button class="generate" onclick="generate()">Generate 💖</button>
+
+  <div class="row">
+    <button class="light" onclick="copyLink()">Copy link 🔗</button>
+    <button class="light" onclick="openLink()">Open link 💞</button>
+  </div>
+
 </div>
 
 <script>
-function go(){
-  const y=you.value.trim(), p=partner.value.trim();
-  if(!y||!p){alert("Fill both");return;}
-  location.href=`choose.html?you=${y}&partner=${p}`;
+let finalURL = "";
+
+function generate() {
+  const you = document.getElementById("you").value.trim();
+  const partner = document.getElementById("partner").value.trim();
+  const message = document.getElementById("message").value.trim();
+
+  if (!you || !partner || !message) {
+    alert("All fields are required 💕");
+    return;
+  }
+
+  finalURL =
+    `proposal.html?you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}&msg=${encodeURIComponent(message)}`;
+
+  alert("Link generated 💖");
+}
+
+function copyLink() {
+  if (!finalURL) {
+    alert("Click Generate first 💕");
+    return;
+  }
+  navigator.clipboard.writeText(location.origin + "/" + finalURL);
+  alert("Link copied 🔗");
+}
+
+function openLink() {
+  if (!finalURL) {
+    alert("Click Generate first 💕");
+    return;
+  }
+  window.open(finalURL, "_blank");
 }
 </script>
+
 </body>
 </html>

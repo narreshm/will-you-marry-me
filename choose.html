@@ -5,92 +5,114 @@
 <title>Choose what this is for 💖</title>
 
 <style>
-/* ---------- BASIC LAYOUT ---------- */
 body{
   margin:0;
   min-height:100vh;
   font-family:'Segoe UI',sans-serif;
-  background:linear-gradient(135deg,#ffe6ef,#f7c6d0);
+
+  /* 🌸 soft pink background + light hearts */
+  background:
+    linear-gradient(135deg,#ffe6ef,#fbd3e9),
+    url("https://www.transparenttextures.com/patterns/hearts.png");
+  background-blend-mode: overlay;
+
   display:flex;
   justify-content:center;
   align-items:center;
 }
 
+/* MAIN CARD */
 .card{
-  background:#fff;
-  width:400px;
-  padding:24px;
-  border-radius:26px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.15);
+  background:#ffffff;
+  width:580px;                 /* increased width */
+  padding:32px;
+  border-radius:34px;
+  box-shadow:0 25px 50px rgba(0,0,0,0.15);
 }
 
 h2{
   text-align:center;
   color:#ff5b8a;
+  margin-bottom:22px;
 }
 
-/* ---------- CATEGORY ---------- */
+/* CATEGORIES */
 .categories{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
+  display:flex;
+  justify-content:center;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-bottom:18px;
 }
 
 .cat{
-  padding:12px;
-  border-radius:14px;
+  padding:10px 18px;
+  border-radius:24px;
   border:1px solid #ffd1dc;
   background:#fff4f8;
-  text-align:center;
   font-weight:600;
   cursor:pointer;
+  white-space:nowrap;
 }
 
 .cat.active{
   background:#ff5b8a;
-  color:#fff;
+  color:white;
 }
 
-/* ---------- MESSAGE ---------- */
+/* MESSAGE BOX */
 textarea{
   width:100%;
-  margin-top:12px;
-  padding:12px;
-  border-radius:14px;
+  padding:16px 16px;     /* equal left & right spacing */
+  border-radius:18px;
   border:none;
   background:#fff0f5;
   height:90px;
   resize:none;
+  font-size:15px;
 }
 
-/* ---------- BUTTONS ---------- */
+/* BUTTONS */
 button{
   width:100%;
-  margin-top:12px;
+  margin-top:16px;
   padding:14px;
   border-radius:30px;
   border:none;
+  font-size:15px;
   font-weight:600;
   cursor:pointer;
 }
 
 .primary{
   background:#ff5b8a;
-  color:#fff;
+  color:white;
 }
 
 .light{
-  background:#fff;
+  background:white;
   color:#ff5b8a;
   border:1px solid #ffd1dc;
 }
 
 .row{
   display:flex;
-  gap:10px;
+  gap:14px;
+  margin-top:14px;
 }
 
-/* ---------- KEY FIX ---------- */
+/* URL DISPLAY */
+.url-box{
+  margin-top:20px;
+  padding:14px 16px;
+  background:#fff4f8;
+  border:2px dashed #f3a7bd;
+  border-radius:18px;
+  font-size:13px;
+  word-break:break-all;
+}
+
+/* HIDDEN */
 .hidden{
   display:none;
 }
@@ -104,69 +126,68 @@ button{
 <h2>Choose what this is for 💖</h2>
 
 <div class="categories">
-  <div class="cat active" onclick="setType('valentine', this)">💓 Valentine</div>
-  <div class="cat" onclick="setType('marriage', this)">💍 Marriage</div>
-  <div class="cat" onclick="setType('love', this)">❤️ Love</div>
-  <div class="cat" onclick="setType('confession', this)">💌 Confession</div>
-  <div class="cat" onclick="setType('anniversary', this)">💕 Anniversary</div>
+  <div class="cat active" onclick="setType('valentine',this)">💓 Valentine</div>
+  <div class="cat" onclick="setType('marriage',this)">💍 Marriage</div>
+  <div class="cat" onclick="setType('love',this)">❤️ Love</div>
+  <div class="cat" onclick="setType('confession',this)">💌 Confession</div>
+  <div class="cat" onclick="setType('anniversary',this)">💕 Anniversary</div>
 </div>
 
 <textarea id="message" placeholder="Customize your message ✍️ (required)"></textarea>
 
 <button class="primary" onclick="generate()">Generate 💖</button>
 
-<!-- ❌ HIDDEN BY DEFAULT -->
+<!-- AFTER GENERATE -->
 <div id="afterGenerate" class="hidden">
+
+  <div class="url-box" id="urlBox"></div>
+
   <div class="row">
     <button class="light" onclick="copyLink()">Copy link 🔗</button>
     <button class="light" onclick="openLink()">Open link 💞</button>
   </div>
+
 </div>
 
 </div>
 
 <script>
-/* ---------- READ NAMES ---------- */
-const params = new URLSearchParams(location.search);
-const you = params.get("you");
-const partner = params.get("partner");
+const p = new URLSearchParams(location.search);
+const you = p.get("you");
+const partner = p.get("partner");
 
-/* ---------- STATE ---------- */
 let type = "valentine";
 let finalURL = "";
 
-/* ---------- CATEGORY SELECT ---------- */
 function setType(t, el){
   type = t;
-  document.querySelectorAll(".cat").forEach(c => c.classList.remove("active"));
+  document.querySelectorAll(".cat").forEach(c=>c.classList.remove("active"));
   el.classList.add("active");
 }
 
-/* ---------- GENERATE ---------- */
 function generate(){
   const msg = document.getElementById("message").value.trim();
-
   if(!msg){
-    alert("Customize message is required 💕");
+    alert("Please write your message 💕");
     return;
   }
 
   finalURL =
     `proposal.html?type=${type}&you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}&msg=${encodeURIComponent(msg)}`;
 
-  /* ✅ THIS LINE MAKES BUTTONS APPEAR */
+  document.getElementById("urlBox").innerText =
+    location.origin + "/" + finalURL;
+
   document.getElementById("afterGenerate").classList.remove("hidden");
 }
 
-/* ---------- COPY ---------- */
 function copyLink(){
-  navigator.clipboard.writeText(location.origin + "/" + finalURL);
+  navigator.clipboard.writeText(document.getElementById("urlBox").innerText);
   alert("Link copied 🔗");
 }
 
-/* ---------- OPEN ---------- */
 function openLink(){
-  window.open(finalURL, "_blank");
+  window.open(finalURL,"_blank");
 }
 </script>
 

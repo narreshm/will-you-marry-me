@@ -10,7 +10,7 @@ body{
   min-height:100vh;
   font-family:'Segoe UI',sans-serif;
 
-  /* 🌸 soft pink background + light hearts */
+  /* Soft pink + light hearts */
   background:
     linear-gradient(135deg,#ffe6ef,#fbd3e9),
     url("https://www.transparenttextures.com/patterns/hearts.png");
@@ -21,10 +21,10 @@ body{
   align-items:center;
 }
 
-/* MAIN CARD */
+/* Container */
 .card{
   background:#ffffff;
-  width:580px;                 /* increased width */
+  width:580px;
   padding:32px;
   border-radius:34px;
   box-shadow:0 25px 50px rgba(0,0,0,0.15);
@@ -36,7 +36,7 @@ h2{
   margin-bottom:22px;
 }
 
-/* CATEGORIES */
+/* Categories */
 .categories{
   display:flex;
   justify-content:center;
@@ -60,10 +60,10 @@ h2{
   color:white;
 }
 
-/* MESSAGE BOX */
+/* Message box */
 textarea{
   width:100%;
-  padding:16px 16px;     /* equal left & right spacing */
+  padding:16px 16px;   /* equal spacing left & right */
   border-radius:18px;
   border:none;
   background:#fff0f5;
@@ -72,7 +72,7 @@ textarea{
   font-size:15px;
 }
 
-/* BUTTONS */
+/* Buttons */
 button{
   width:100%;
   margin-top:16px;
@@ -101,7 +101,7 @@ button{
   margin-top:14px;
 }
 
-/* URL DISPLAY */
+/* URL box */
 .url-box{
   margin-top:20px;
   padding:14px 16px;
@@ -112,7 +112,7 @@ button{
   word-break:break-all;
 }
 
-/* HIDDEN */
+/* Hidden */
 .hidden{
   display:none;
 }
@@ -131,22 +131,21 @@ button{
   <div class="cat" onclick="setType('love',this)">❤️ Love</div>
   <div class="cat" onclick="setType('confession',this)">💌 Confession</div>
   <div class="cat" onclick="setType('anniversary',this)">💕 Anniversary</div>
+  <div class="cat" onclick="setType('birthday',this)">🎂 Birthday</div>
 </div>
 
 <textarea id="message" placeholder="Customize your message ✍️ (required)"></textarea>
 
 <button class="primary" onclick="generate()">Generate 💖</button>
 
-<!-- AFTER GENERATE -->
+<!-- After Generate -->
 <div id="afterGenerate" class="hidden">
-
   <div class="url-box" id="urlBox"></div>
 
   <div class="row">
     <button class="light" onclick="copyLink()">Copy link 🔗</button>
     <button class="light" onclick="openLink()">Open link 💞</button>
   </div>
-
 </div>
 
 </div>

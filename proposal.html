@@ -12,29 +12,34 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
+  overflow:hidden;
 
-  /* soft animated background */
   background: linear-gradient(-45deg,#ffdde1,#fbc2eb,#cfd9df,#ffecd2);
   background-size: 400% 400%;
-  animation: bgMove 14s ease infinite;
+  animation: bgFlow 18s ease infinite;
 }
 
-@keyframes bgMove{
+@keyframes bgFlow{
   0%{background-position:0% 50%}
   50%{background-position:100% 50%}
   100%{background-position:0% 50%}
 }
 
 .card{
-  background:#fff;
-  padding:42px 36px;
-  border-radius:32px;
+  background:rgba(255,255,255,0.97);
+  padding:44px 38px;
+  border-radius:34px;
   width:380px;
   text-align:center;
   box-shadow:0 30px 60px rgba(0,0,0,0.15);
+  animation: cardIn 1.4s ease;
 }
 
-/* content */
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(30px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
 .name{
   font-size:22px;
   font-weight:600;
@@ -68,6 +73,19 @@ body{
   font-weight:600;
   color:#ff5b8a;
 }
+
+.heart{
+  position:absolute;
+  font-size:18px;
+  animation: floatUp 8s linear infinite;
+  opacity:0.6;
+}
+
+@keyframes floatUp{
+  from{transform:translateY(100vh);opacity:0}
+  20%{opacity:0.6}
+  to{transform:translateY(-10vh);opacity:0}
+}
 </style>
 </head>
 
@@ -82,45 +100,43 @@ body{
 </div>
 
 <script>
-/* ---------- READ URL PARAMS ---------- */
-const params = new URLSearchParams(window.location.search);
+const p = new URLSearchParams(location.search);
+const type = p.get("type");
+const you = p.get("you");
+const partner = p.get("partner");
+const msg = p.get("msg");
 
-const type    = params.get("type");
-const you     = params.get("you");
-const partner = params.get("partner");
-const msg     = params.get("msg");
-
-/* ---------- SAFETY CHECK ---------- */
-if (!type || !you || !partner || !msg) {
+if(!type || !you || !partner || !msg){
   document.body.innerHTML = "<h2>Invalid link 💔</h2>";
   throw new Error("Missing parameters");
 }
 
-/* ---------- CAPITALIZE ---------- */
-function cap(text){
-  return text.charAt(0).toUpperCase() + text.slice(1);
-}
+function cap(t){ return t.charAt(0).toUpperCase() + t.slice(1); }
 
-/* ---------- CATEGORY CONFIG ---------- */
-const config = {
+const titles = {
   valentine:  "💓 Valentine",
   marriage:   "💍 Marriage Proposal",
   love:       "❤️ Love",
   confession: "💌 Confession",
-  anniversary:"💕 Anniversary"
+  anniversary:"💕 Anniversary",
+  birthday:   "🎂 Happy Birthday"
 };
 
-/* ---------- GET ELEMENTS (IMPORTANT) ---------- */
-const partnerEl  = document.getElementById("partnerName");
-const categoryEl = document.getElementById("categoryTitle");
-const messageEl  = document.getElementById("messageText");
-const fromEl     = document.getElementById("fromName");
+document.getElementById("partnerName").innerText = cap(partner);
+document.getElementById("categoryTitle").innerText = titles[type] || "💖 Special";
+document.getElementById("messageText").innerText = msg;
+document.getElementById("fromName").innerText = "— " + cap(you);
 
-/* ---------- SET CONTENT ---------- */
-partnerEl.innerText  = cap(partner);
-categoryEl.innerText = config[type] || "💖 Special";
-messageEl.innerText  = msg;
-fromEl.innerText     = "— " + cap(you);
+/* Floating hearts */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText = Math.random() > 0.5 ? "💖" : "💗";
+  h.style.left = Math.random()*100 + "vw";
+  h.style.animationDuration = (6 + Math.random()*4) + "s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),9000);
+},900);
 </script>
 
 </body>

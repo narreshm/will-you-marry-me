@@ -5,7 +5,6 @@
 <title>Special Moment 💖</title>
 
 <style>
-/* 🌈 Animated soft background */
 body{
   margin:0;
   height:100vh;
@@ -13,10 +12,11 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
+
+  /* soft animated background */
   background: linear-gradient(-45deg,#ffdde1,#fbc2eb,#cfd9df,#ffecd2);
   background-size: 400% 400%;
-  animation: bgMove 15s ease infinite;
-  overflow:hidden;
+  animation: bgMove 14s ease infinite;
 }
 
 @keyframes bgMove{
@@ -25,31 +25,22 @@ body{
   100%{background-position:0% 50%}
 }
 
-/* 💌 Card */
 .card{
-  background: rgba(255,255,255,0.96);
-  padding:44px 36px;
+  background:#fff;
+  padding:42px 36px;
   border-radius:32px;
   width:380px;
   text-align:center;
   box-shadow:0 30px 60px rgba(0,0,0,0.15);
-  animation: fadeUp 1.2s ease;
 }
 
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1;transform:translateY(0)}
-}
-
-/* 👩‍❤️‍👨 Partner name */
+/* content */
 .name{
   font-size:22px;
   font-weight:600;
-  color:#444;
-  margin-bottom:10px;
+  margin-bottom:8px;
 }
 
-/* Divider */
 .line{
   width:60px;
   height:3px;
@@ -58,14 +49,12 @@ body{
   border-radius:3px;
 }
 
-/* 💖 Category (reason for page) */
 .category{
   font-size:26px;
   font-weight:700;
-  margin-bottom:24px;
+  margin-bottom:22px;
 }
 
-/* ✨ Message */
 .message{
   font-size:16px;
   line-height:1.7;
@@ -73,25 +62,11 @@ body{
   white-space:pre-wrap;
 }
 
-/* ✍️ From */
 .from{
   margin-top:30px;
   font-size:16px;
   font-weight:600;
   color:#ff5b8a;
-}
-
-/* 💕 Floating hearts */
-.heart{
-  position:absolute;
-  font-size:18px;
-  animation: floatUp 6s linear infinite;
-  opacity:0.7;
-}
-
-@keyframes floatUp{
-  from{transform:translateY(100vh)}
-  to{transform:translateY(-10vh)}
 }
 </style>
 </head>
@@ -99,45 +74,53 @@ body{
 <body>
 
 <div class="card">
-  <div class="name" id="partner"></div>
+  <div class="name" id="partnerName"></div>
   <div class="line"></div>
-  <div class="category" id="category"></div>
-  <div class="message" id="msg"></div>
-  <div class="from" id="from"></div>
+  <div class="category" id="categoryTitle"></div>
+  <div class="message" id="messageText"></div>
+  <div class="from" id="fromName"></div>
 </div>
 
 <script>
-const p = new URLSearchParams(location.search);
-const type = p.get("type");
-const you = p.get("you");
-const partner = p.get("partner");
-const msg = p.get("msg");
+/* ---------- READ URL PARAMS ---------- */
+const params = new URLSearchParams(window.location.search);
 
-function cap(t){ return t.charAt(0).toUpperCase()+t.slice(1); }
+const type    = params.get("type");
+const you     = params.get("you");
+const partner = params.get("partner");
+const msg     = params.get("msg");
 
+/* ---------- SAFETY CHECK ---------- */
+if (!type || !you || !partner || !msg) {
+  document.body.innerHTML = "<h2>Invalid link 💔</h2>";
+  throw new Error("Missing parameters");
+}
+
+/* ---------- CAPITALIZE ---------- */
+function cap(text){
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
+/* ---------- CATEGORY CONFIG ---------- */
 const config = {
-  valentine: { title:"💓 Valentine" },
-  marriage: { title:"💍 Marriage Proposal" },
-  love: { title:"❤️ Love" },
-  confession: { title:"💌 Confession" },
-  anniversary: { title:"💕 Anniversary" }
+  valentine:  "💓 Valentine",
+  marriage:   "💍 Marriage Proposal",
+  love:       "❤️ Love",
+  confession: "💌 Confession",
+  anniversary:"💕 Anniversary"
 };
 
-partnerEl.innerText = cap(partner);
-category.innerText = config[type].title;
-msgEl = document.getElementById("msg");
-msgEl.innerText = msg;
-from.innerText = "— " + cap(you);
+/* ---------- GET ELEMENTS (IMPORTANT) ---------- */
+const partnerEl  = document.getElementById("partnerName");
+const categoryEl = document.getElementById("categoryTitle");
+const messageEl  = document.getElementById("messageText");
+const fromEl     = document.getElementById("fromName");
 
-/* 💕 Floating hearts generator */
-setInterval(()=>{
-  const h=document.createElement("div");
-  h.className="heart";
-  h.innerText="💗";
-  h.style.left=Math.random()*100+"vw";
-  document.body.appendChild(h);
-  setTimeout(()=>h.remove(),6000);
-},700);
+/* ---------- SET CONTENT ---------- */
+partnerEl.innerText  = cap(partner);
+categoryEl.innerText = config[type] || "💖 Special";
+messageEl.innerText  = msg;
+fromEl.innerText     = "— " + cap(you);
 </script>
 
 </body>

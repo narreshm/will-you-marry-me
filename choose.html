@@ -2,9 +2,23 @@
 const params = new URLSearchParams(window.location.search);
 const type = params.get("type") || "valentine";
 
+const titles = {
+  valentine:"💓 Valentine",
+  marriage:"💍 Marriage",
+  love:"❤️ Love",
+  confession:"💌 Confession",
+  anniversary:"💕 Anniversary",
+  birthday:"🎂 Birthday"
+};
+
+// Safely set page title
+const titleElement = document.getElementById("pageTitle");
+if(titleElement){
+  titleElement.innerText = titles[type] || "💖 Special Moment";
+}
+
 let finalURL = "";
 
-// Safe Generate Function
 function generate(){
 
   const youEl = document.getElementById("you");
@@ -12,7 +26,7 @@ function generate(){
   const msgEl = document.getElementById("message");
 
   if(!youEl || !partnerEl || !msgEl){
-    alert("Page setup error.");
+    alert("Page setup error 💔");
     return;
   }
 
@@ -25,7 +39,6 @@ function generate(){
     return;
   }
 
-  // SAFE relative path (no hardcoded repo name)
   finalURL =
     `proposal.html?type=${encodeURIComponent(type)}&you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}&msg=${encodeURIComponent(msg)}`;
 
@@ -33,7 +46,10 @@ function generate(){
   const afterGenerate = document.getElementById("afterGenerate");
 
   if(urlBox){
-    urlBox.innerText = window.location.origin + window.location.pathname.replace("choose.html","") + finalURL;
+    urlBox.innerText =
+      window.location.origin +
+      window.location.pathname.replace("choose.html","") +
+      finalURL;
   }
 
   if(afterGenerate){
@@ -41,7 +57,6 @@ function generate(){
   }
 }
 
-// Copy
 function copyLink(){
   if(!finalURL){
     alert("Generate link first 💕");
@@ -54,17 +69,16 @@ function copyLink(){
     finalURL;
 
   navigator.clipboard.writeText(fullURL)
-    .then(() => alert("Link copied 🔗"))
-    .catch(() => alert("Copy failed"));
+    .then(()=>alert("Link copied 🔗"))
+    .catch(()=>alert("Copy failed"));
 }
 
-// Open in new tab
 function openLink(){
   if(!finalURL){
     alert("Generate link first 💕");
     return;
   }
 
-  window.open(finalURL, "_blank");
+  window.open(finalURL,"_blank");
 }
 </script>

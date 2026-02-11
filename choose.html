@@ -1,3 +1,170 @@
-git add choose.html
-git commit -m "Fix blank page issue"
-git push
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Make it personal 💌</title>
+
+<style>
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#ffe6ef,#fbd3e9);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.card{
+  background:#fff;
+  width:520px;
+  padding:36px;
+  border-radius:34px;
+  box-shadow:0 30px 60px rgba(0,0,0,0.15);
+}
+
+h2{
+  text-align:center;
+  color:#ff5b8a;
+  margin-bottom:24px;
+}
+
+input, textarea{
+  width:100%;
+  padding:16px;
+  border-radius:18px;
+  border:none;
+  background:#fff0f5;
+  margin-top:14px;
+  font-size:15px;
+  box-sizing:border-box;
+}
+
+textarea{
+  height:100px;
+  resize:none;
+}
+
+button{
+  width:100%;
+  margin-top:20px;
+  padding:14px;
+  border-radius:30px;
+  border:none;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.primary{
+  background:#ff5b8a;
+  color:white;
+}
+
+.light{
+  background:white;
+  color:#ff5b8a;
+  border:1px solid #ffd1dc;
+}
+
+.row{
+  display:flex;
+  gap:14px;
+  margin-top:14px;
+}
+
+.url-box{
+  margin-top:20px;
+  padding:14px;
+  background:#fff4f8;
+  border:2px dashed #f3a7bd;
+  border-radius:18px;
+  font-size:13px;
+  word-break:break-all;
+}
+
+.hidden{
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2 id="pageTitle">💖 Special Moment</h2>
+
+<input id="you" placeholder="The one asking 💫">
+<input id="partner" placeholder="The one I choose 💍">
+
+<textarea id="message" placeholder="Customize your message ✍️ (required)"></textarea>
+
+<button class="primary" onclick="generate()">Generate 💖</button>
+
+<div id="afterGenerate" class="hidden">
+  <div class="url-box" id="urlBox"></div>
+
+  <div class="row">
+    <button class="light" onclick="copyLink()">Copy link 🔗</button>
+    <button class="light" onclick="openLink()">Open in new tab 💞</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const type = params.get("type") || "valentine";
+
+const titles = {
+  valentine:"💓 Valentine",
+  marriage:"💍 Marriage",
+  love:"❤️ Love",
+  confession:"💌 Confession",
+  anniversary:"💕 Anniversary",
+  birthday:"🎂 Birthday"
+};
+
+document.getElementById("pageTitle").innerText =
+  titles[type] || "💖 Special Moment";
+
+let finalURL = "";
+
+function generate(){
+  const you = document.getElementById("you").value.trim();
+  const partner = document.getElementById("partner").value.trim();
+  const msg = document.getElementById("message").value.trim();
+
+  if(!you || !partner || !msg){
+    alert("Please fill all fields 💕");
+    return;
+  }
+
+  finalURL =
+    `proposal.html?type=${encodeURIComponent(type)}&you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}&msg=${encodeURIComponent(msg)}`;
+
+  const fullURL =
+    window.location.origin +
+    window.location.pathname.replace("choose.html","") +
+    finalURL;
+
+  document.getElementById("urlBox").innerText = fullURL;
+  document.getElementById("afterGenerate").classList.remove("hidden");
+}
+
+function copyLink(){
+  navigator.clipboard.writeText(document.getElementById("urlBox").innerText)
+    .then(()=>alert("Link copied 🔗"))
+    .catch(()=>alert("Copy failed"));
+}
+
+function openLink(){
+  if(finalURL){
+    window.open(finalURL,"_blank");
+  }
+}
+</script>
+
+</body>
+</html>

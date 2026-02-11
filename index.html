@@ -2,56 +2,64 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Start 💖</title>
+<title>Choose your moment 💖</title>
 
 <style>
-  body {
-    margin: 0;
-    height: 100vh;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg,#ffe6ef,#f7c6d0);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(135deg,#ffe6ef,#fbd3e9);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 
-  .card {
-    background: #fff;
-    padding: 30px;
-    border-radius: 24px;
-    width: 340px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-  }
+.card{
+  background:#fff;
+  width:640px;
+  padding:36px;
+  border-radius:36px;
+  box-shadow:0 30px 60px rgba(0,0,0,0.15);
+}
 
-  label {
-    font-weight: 600;
-    color: #a24b63;
-    display: block;
-    margin-top: 16px;
-  }
+h2{
+  text-align:center;
+  color:#ff5b8a;
+  margin-bottom:30px;
+  font-size:26px;
+}
 
-  input {
-    width: 100%;
-    padding: 14px;
-    border-radius: 14px;
-    border: none;
-    margin-top: 6px;
-    background: #fff0f5;
-    font-size: 15px;
-  }
+.categories{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+}
 
-  button {
-    width: 100%;
-    margin-top: 26px;
-    padding: 14px;
-    border-radius: 30px;
-    border: none;
-    background: #ff5b8a;
-    color: white;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-  }
+.cat{
+  padding:20px;
+  border-radius:24px;
+  background:linear-gradient(135deg,#fff4f8,#ffe6ef);
+  border:1px solid #ffd1dc;
+  cursor:pointer;
+  transition:all 0.3s ease;
+}
+
+.cat:hover{
+  transform:translateY(-6px);
+  box-shadow:0 12px 30px rgba(255,91,138,0.25);
+}
+
+.cat-title{
+  font-weight:700;
+  font-size:18px;
+}
+
+.cat-sub{
+  font-size:13px;
+  margin-top:6px;
+  opacity:0.8;
+}
 </style>
 </head>
 
@@ -59,30 +67,47 @@
 
 <div class="card">
 
-  <label>The one asking 💫</label>
-  <input id="you" placeholder="Your name">
+<h2>Choose what this is for 💖</h2>
 
-  <label>The one I choose 💍</label>
-  <input id="partner" placeholder="Partner name">
+<div class="categories">
 
-  <!-- 🔽 TEXT CHANGED HERE -->
-  <button onclick="go()">Next ➡️</button>
+  <div class="cat" onclick="go('valentine')">
+    <div class="cat-title">💓 Valentine</div>
+    <div class="cat-sub">Celebrate love & sweet moments</div>
+  </div>
+
+  <div class="cat" onclick="go('marriage')">
+    <div class="cat-title">💍 Marriage</div>
+    <div class="cat-sub">A lifetime promise begins here</div>
+  </div>
+
+  <div class="cat" onclick="go('love')">
+    <div class="cat-title">❤️ Love</div>
+    <div class="cat-sub">Say what your heart truly feels</div>
+  </div>
+
+  <div class="cat" onclick="go('confession')">
+    <div class="cat-title">💌 Confession</div>
+    <div class="cat-sub">Reveal your hidden emotions</div>
+  </div>
+
+  <div class="cat" onclick="go('anniversary')">
+    <div class="cat-title">💕 Anniversary</div>
+    <div class="cat-sub">Celebrate your beautiful journey</div>
+  </div>
+
+  <div class="cat" onclick="go('birthday')">
+    <div class="cat-title">🎂 Birthday</div>
+    <div class="cat-sub">Make their day unforgettable</div>
+  </div>
+
+</div>
 
 </div>
 
 <script>
-function go() {
-  const you = document.getElementById("you").value.trim();
-  const partner = document.getElementById("partner").value.trim();
-
-  if (!you || !partner) {
-    alert("Please enter both names 💕");
-    return;
-  }
-
-  // Go to Page 2
-  location.href =
-    `choose.html?you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}`;
+function go(type){
+  location.href = "choose.html?type=" + type;
 }
 </script>
 

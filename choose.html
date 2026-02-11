@@ -2,84 +2,55 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Choose what this is for 💖</title>
+<title>Make it personal 💌</title>
 
 <style>
 body{
   margin:0;
   min-height:100vh;
   font-family:'Segoe UI',sans-serif;
-
-  /* Soft pink + light hearts */
-  background:
-    linear-gradient(135deg,#ffe6ef,#fbd3e9),
-    url("https://www.transparenttextures.com/patterns/hearts.png");
-  background-blend-mode: overlay;
-
+  background:linear-gradient(135deg,#ffe6ef,#fbd3e9);
   display:flex;
   justify-content:center;
   align-items:center;
 }
 
-/* Container */
 .card{
-  background:#ffffff;
-  width:580px;
-  padding:32px;
+  background:#fff;
+  width:520px;
+  padding:36px;
   border-radius:34px;
-  box-shadow:0 25px 50px rgba(0,0,0,0.15);
+  box-shadow:0 30px 60px rgba(0,0,0,0.15);
 }
 
 h2{
   text-align:center;
   color:#ff5b8a;
-  margin-bottom:22px;
+  margin-bottom:24px;
 }
 
-/* Categories */
-.categories{
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-bottom:18px;
-}
-
-.cat{
-  padding:10px 18px;
-  border-radius:24px;
-  border:1px solid #ffd1dc;
-  background:#fff4f8;
-  font-weight:600;
-  cursor:pointer;
-  white-space:nowrap;
-}
-
-.cat.active{
-  background:#ff5b8a;
-  color:white;
-}
-
-/* Message box */
-textarea{
+input, textarea{
   width:100%;
-  padding:16px 16px;   /* equal spacing left & right */
+  padding:16px;
   border-radius:18px;
   border:none;
   background:#fff0f5;
-  height:90px;
-  resize:none;
+  margin-top:14px;
   font-size:15px;
 }
 
-/* Buttons */
+textarea{
+  height:100px;
+  resize:none;
+}
+
 button{
   width:100%;
-  margin-top:16px;
+  margin-top:20px;
   padding:14px;
   border-radius:30px;
   border:none;
-  font-size:15px;
+  font-size:16px;
   font-weight:600;
   cursor:pointer;
 }
@@ -101,10 +72,9 @@ button{
   margin-top:14px;
 }
 
-/* URL box */
 .url-box{
   margin-top:20px;
-  padding:14px 16px;
+  padding:14px;
   background:#fff4f8;
   border:2px dashed #f3a7bd;
   border-radius:18px;
@@ -112,7 +82,6 @@ button{
   word-break:break-all;
 }
 
-/* Hidden */
 .hidden{
   display:none;
 }
@@ -123,25 +92,17 @@ button{
 
 <div class="card">
 
-<h2>Choose what this is for 💖</h2>
+<h2 id="pageTitle"></h2>
 
-<div class="categories">
-  <div class="cat active" onclick="setType('valentine',this)">💓 Valentine</div>
-  <div class="cat" onclick="setType('marriage',this)">💍 Marriage</div>
-  <div class="cat" onclick="setType('love',this)">❤️ Love</div>
-  <div class="cat" onclick="setType('confession',this)">💌 Confession</div>
-  <div class="cat" onclick="setType('anniversary',this)">💕 Anniversary</div>
-  <div class="cat" onclick="setType('birthday',this)">🎂 Birthday</div>
-</div>
+<input id="you" placeholder="The one asking 💫">
+<input id="partner" placeholder="The one I choose 💍">
 
 <textarea id="message" placeholder="Customize your message ✍️ (required)"></textarea>
 
 <button class="primary" onclick="generate()">Generate 💖</button>
 
-<!-- After Generate -->
 <div id="afterGenerate" class="hidden">
   <div class="url-box" id="urlBox"></div>
-
   <div class="row">
     <button class="light" onclick="copyLink()">Copy link 🔗</button>
     <button class="light" onclick="openLink()">Open link 💞</button>
@@ -152,27 +113,32 @@ button{
 
 <script>
 const p = new URLSearchParams(location.search);
-const you = p.get("you");
-const partner = p.get("partner");
+const type = p.get("type");
 
-let type = "valentine";
-let finalURL = "";
+const titles = {
+  valentine:"💓 Valentine",
+  marriage:"💍 Marriage",
+  love:"❤️ Love",
+  confession:"💌 Confession",
+  anniversary:"💕 Anniversary",
+  birthday:"🎂 Birthday"
+};
 
-function setType(t, el){
-  type = t;
-  document.querySelectorAll(".cat").forEach(c=>c.classList.remove("active"));
-  el.classList.add("active");
-}
+document.getElementById("pageTitle").innerText = titles[type];
+
+let finalURL="";
 
 function generate(){
-  const msg = document.getElementById("message").value.trim();
-  if(!msg){
-    alert("Please write your message 💕");
+  const you=document.getElementById("you").value.trim();
+  const partner=document.getElementById("partner").value.trim();
+  const msg=document.getElementById("message").value.trim();
+
+  if(!you || !partner || !msg){
+    alert("Please fill all fields 💕");
     return;
   }
 
-  finalURL =
-    `proposal.html?type=${type}&you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}&msg=${encodeURIComponent(msg)}`;
+  finalURL=`proposal.html?type=${type}&you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}&msg=${encodeURIComponent(msg)}`;
 
   document.getElementById("urlBox").innerText =
     location.origin + "/" + finalURL;

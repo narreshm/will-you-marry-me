@@ -1,36 +1,70 @@
 <script>
-const p = new URLSearchParams(location.search);
-const type = p.get("type");
+const params = new URLSearchParams(window.location.search);
+const type = params.get("type") || "valentine";
 
 let finalURL = "";
 
+// Safe Generate Function
 function generate(){
-  const you = document.getElementById("you").value.trim();
-  const partner = document.getElementById("partner").value.trim();
-  const msg = document.getElementById("message").value.trim();
+
+  const youEl = document.getElementById("you");
+  const partnerEl = document.getElementById("partner");
+  const msgEl = document.getElementById("message");
+
+  if(!youEl || !partnerEl || !msgEl){
+    alert("Page setup error.");
+    return;
+  }
+
+  const you = youEl.value.trim();
+  const partner = partnerEl.value.trim();
+  const msg = msgEl.value.trim();
 
   if(!you || !partner || !msg){
     alert("Please fill all fields 💕");
     return;
   }
 
-  // Build full absolute URL
-  finalURL = `${window.location.origin}/will-you-marry-me/proposal.html?type=${type}&you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}&msg=${encodeURIComponent(msg)}`;
+  // SAFE relative path (no hardcoded repo name)
+  finalURL =
+    `proposal.html?type=${encodeURIComponent(type)}&you=${encodeURIComponent(you)}&partner=${encodeURIComponent(partner)}&msg=${encodeURIComponent(msg)}`;
 
-  document.getElementById("urlBox").innerText = finalURL;
+  const urlBox = document.getElementById("urlBox");
+  const afterGenerate = document.getElementById("afterGenerate");
 
-  document.getElementById("afterGenerate").classList.remove("hidden");
+  if(urlBox){
+    urlBox.innerText = window.location.origin + window.location.pathname.replace("choose.html","") + finalURL;
+  }
+
+  if(afterGenerate){
+    afterGenerate.classList.remove("hidden");
+  }
 }
 
+// Copy
 function copyLink(){
-  navigator.clipboard.writeText(finalURL)
+  if(!finalURL){
+    alert("Generate link first 💕");
+    return;
+  }
+
+  const fullURL =
+    window.location.origin +
+    window.location.pathname.replace("choose.html","") +
+    finalURL;
+
+  navigator.clipboard.writeText(fullURL)
     .then(() => alert("Link copied 🔗"))
     .catch(() => alert("Copy failed"));
 }
 
+// Open in new tab
 function openLink(){
-  if(finalURL){
-    window.open(finalURL, "_blank");
+  if(!finalURL){
+    alert("Generate link first 💕");
+    return;
   }
+
+  window.open(finalURL, "_blank");
 }
 </script>
